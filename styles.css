@@ -1,98 +1,51 @@
-/* Global styles */
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f4f4f4;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* Ensures horizontal scrolling if table is wider */
-}
-
-h1 {
-  color: #691636;
-  font-size: 28px;
-  margin-bottom: 20px;
+/* Header Section */
+.header {
+  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
+  background-size: cover;
+  background-position: center;
+  height: 250px;  /* Adjust the height as needed */
   text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  border: 2px solid #691636;
-  border-radius: 4px;
+.header h1 {
+  font-size: 36px;
+  margin: 0;
+  padding: 0;
 }
 
-input:focus {
-  outline: none;
-  border-color: #74613c;
-}
-
+/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  table-layout: auto; /* Ensures that the table width adjusts based on content */
 }
 
 th, td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
-  font-size: 14px;
-  word-wrap: break-word; /* Ensures text inside cells wraps correctly */
-  background-color: #fff; /* Makes sure background color is consistent */
 }
 
 th {
-  background-color: #691636; /* Brand color for header */
-  color: white;  /* White text color for headers */
-  font-size: 16px;  /* Slightly bigger font size for better readability */
-  font-weight: bold;  /* Make header text bold */
+  background-color: #691636;
+  color: white;
 }
 
-tbody tr:nth-child(even) {
+td {
   background-color: #f9f9f9;
 }
 
-tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 24px;
-  }
-
-  input {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  table {
-    font-size: 12px;
-  }
-
-  th, td {
-    padding: 8px;
-    word-wrap: normal; /* Allow word wrapping to behave properly */
-  }
-
-  th {
-    font-size: 14px;
-  }
-
-  td {
-    font-size: 12px;
-  }
+/* Search Input */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
