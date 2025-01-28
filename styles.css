@@ -1,0 +1,81 @@
+/* General Body Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fc;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Container for the content */
+h1 {
+  color: #2c3e50;
+  margin-top: 30px;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Input Box for Search */
+input[type="text"] {
+  width: 80%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Table Styling */
+table {
+  width: 80%;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Table Header Styling */
+th {
+  background-color: #3498db;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+/* Table Row Styling */
+td {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #ecf0f1;
+}
+
+/* Search Suggestions */
+.no-results {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #e74c3c;
+  margin-top: 20px;
+}
