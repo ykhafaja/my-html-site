@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Locator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+    input { width: 100%; padding: 10px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Doctor Locator</h1>
+  <input type="text" id="search" placeholder="Search for a doctor..." onkeyup="searchTable()">
+  <table id="doctorTable">
+    <thead>
+      <tr>
+        <th>Doctor Name</th>
+        <th>Floor</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Replace with your published Google Sheet URL
+    var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pubhtml?gid=0&single=true';
+
+    function init() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showData,
+        simpleSheet: true
+      });
+    }
+
+    function showData(data) {
+      var tbody = document.querySelector('#doctorTable tbody');
+      tbody.innerHTML = '';
+      data.forEach(function(row) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row['Doctor Name']}</td>
+                        <td>${row['Floor']}</td>
+                        <td>${row['Department']}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function searchTable() {
+      var input = document.getElementById('search').value.toLowerCase();
+      var rows = document.querySelectorAll('#doctorTable tbody tr');
+      rows.forEach(function(row) {
+        var name = row.cells[0].textContent.toLowerCase();
+        if (name.includes(input)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
