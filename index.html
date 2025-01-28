@@ -29,7 +29,7 @@
   </table>
 
   <script>
-    // Your provided Google Sheets URL
+    // Replace with your correct published Google Sheets URL
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pubhtml?gid=0&single=true';
 
     function init() {
@@ -37,10 +37,13 @@
         key: publicSpreadsheetUrl,
         callback: showData,
         simpleSheet: true,
+        wanted: ['Floor', 'Department/Service', 'Category', 'Additional Notes'], // Specify columns we want to pull
+        debug: true // Enable debugging to log any errors to the console
       });
     }
 
     function showData(data) {
+      console.log('Data from Google Sheets:', data); // Log data to console for debugging
       var tbody = document.querySelector('#doctorTable tbody');
       tbody.innerHTML = ''; // Clear any existing rows
       data.forEach(function(row) {
@@ -71,6 +74,7 @@
       });
     }
 
+    // Initialize Tabletop.js when the window loads
     window.onload = init;
   </script>
 </body>
