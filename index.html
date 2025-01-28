@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     input { width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; }
@@ -29,23 +29,24 @@
   </table>
 
   <script>
-    // Replace with your correct published Google Sheets URL
-    var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pubhtml?gid=0&single=true';
+    // Link to the public CSV version of the Google Sheet
+    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
 
-    function init() {
-      Tabletop.init({
-        key: publicSpreadsheetUrl,
-        callback: showData,
-        simpleSheet: true,
-        wanted: ['Floor', 'Department/Service', 'Category', 'Additional Notes'], // Specify columns we want to pull
-        debug: true // Enable debugging to log any errors to the console
-      });
-    }
+    // Fetch the CSV data using PapaParse
+    Papa.parse(csvUrl, {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      complete: function(results) {
+        showData(results.data);
+      }
+    });
 
     function showData(data) {
-      console.log('Data from Google Sheets:', data); // Log data to console for debugging
       var tbody = document.querySelector('#doctorTable tbody');
       tbody.innerHTML = ''; // Clear any existing rows
+
+      // Iterate through the rows of data and create table rows
       data.forEach(function(row) {
         var tr = document.createElement('tr');
         tr.innerHTML = `<td>${row['Floor']}</td>
@@ -73,9 +74,6 @@
         }
       });
     }
-
-    // Initialize Tabletop.js when the window loads
-    window.onload = init;
   </script>
 </body>
 </html>
