@@ -37,7 +37,7 @@
       <tr><td>1st Floor</td><td>Element Spa by Banyan Tree</td><td>Amenity</td><td>من بانيان تري</td></tr>
       <tr><td>1st Floor</td><td>La Royale Events</td><td>Amenity</td><td>لا رويال لتنظيم الفعاليات</td></tr>
       <tr><td>1st Floor</td><td>Patient Experience Department</td><td>Administration</td><td>قسم تجربة المرضى</td></tr>
-      <!-- Add all other rows similarly -->
+      <!-- Add other rows similarly -->
     </tbody>
   </table>
 
@@ -51,11 +51,11 @@
         var category = row.cells[2].textContent.toLowerCase();
         var notes = row.cells[3].textContent.toLowerCase();
 
-        // If any column contains the input value, show the row
+        // Check if any of the columns contain the search term
         if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
-          row.style.display = ''; // Show row
+          row.style.display = ''; // Show the row
         } else {
-          row.style.display = 'none'; // Hide row
+          row.style.display = 'none'; // Hide the row
         }
       });
     }
