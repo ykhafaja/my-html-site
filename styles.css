@@ -40,6 +40,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  table-layout: fixed; /* Ensures the table cells are all the same width */
 }
 
 th, td {
@@ -47,6 +48,7 @@ th, td {
   border: 1px solid #ddd;
   text-align: left;
   font-size: 14px;
+  word-wrap: break-word; /* Ensures text inside cells wraps correctly */
 }
 
 th {
@@ -79,6 +81,7 @@ tbody tr:hover {
 
   th, td {
     padding: 8px;
+    word-wrap: normal; /* Allow word wrapping to behave properly */
   }
 
   th {
