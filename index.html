@@ -8,20 +8,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-  <h1>Doctor Locator</h1>
-  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  <table id="doctorTable">
-    <thead>
-      <tr>
-        <th>Floor</th>
-        <th>Department/Service</th>
-        <th>Category</th>
-        <th>Additional Notes</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <p class="no-results" style="display: none;">No results found. Please try another search.</p>
+  <div class="container">
+    <h1>Doctor Locator</h1>
+    <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+    <table id="doctorTable">
+      <thead>
+        <tr>
+          <th>Floor</th>
+          <th>Department/Service</th>
+          <th>Category</th>
+          <th>Additional Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script>
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
@@ -37,12 +38,10 @@
 
     function showData(data) {
       var tbody = document.querySelector('#doctorTable tbody');
-      tbody.innerHTML = '';
+      tbody.innerHTML = ''; 
 
       data.forEach(function(row) {
         var tr = document.createElement('tr');
-        tr.classList.add('table-row');
-        tr.style.display = 'none';
         tr.innerHTML = `<td>${row['Floor']}</td>
                         <td>${row['Department/Service']}</td>
                         <td>${row['Category']}</td>
@@ -54,8 +53,6 @@
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
       var rows = document.querySelectorAll('#doctorTable tbody tr');
-      var resultsFound = false;
-
       rows.forEach(function(row) {
         var floor = row.cells[0].textContent.toLowerCase();
         var department = row.cells[1].textContent.toLowerCase();
@@ -64,19 +61,10 @@
 
         if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
           row.style.display = '';
-          resultsFound = true;
         } else {
           row.style.display = 'none';
         }
       });
-
-      // Show "No results" message if no rows match the search
-      var noResultsMessage = document.querySelector('.no-results');
-      if (!resultsFound) {
-        noResultsMessage.style.display = 'block';
-      } else {
-        noResultsMessage.style.display = 'none';
-      }
     }
   </script>
 </body>
