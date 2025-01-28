@@ -4,14 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input { width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-    th { background-color: #f4f4f4; }
-  </style>
 </head>
 <body>
   <h1>Doctor Locator</h1>
@@ -27,12 +21,11 @@
     </thead>
     <tbody></tbody>
   </table>
+  <p class="no-results" style="display: none;">No results found. Please try another search.</p>
 
   <script>
-    // Link to the public CSV version of the Google Sheet
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
 
-    // Fetch the CSV data using PapaParse
     Papa.parse(csvUrl, {
       download: true,
       header: true,
@@ -44,13 +37,12 @@
 
     function showData(data) {
       var tbody = document.querySelector('#doctorTable tbody');
-      tbody.innerHTML = ''; // Clear any existing rows
+      tbody.innerHTML = '';
 
-      // Iterate through the rows of data and create table rows
       data.forEach(function(row) {
         var tr = document.createElement('tr');
-        tr.classList.add('table-row'); // Add a class for easy row selection
-        tr.style.display = 'none'; // Hide the row initially
+        tr.classList.add('table-row');
+        tr.style.display = 'none';
         tr.innerHTML = `<td>${row['Floor']}</td>
                         <td>${row['Department/Service']}</td>
                         <td>${row['Category']}</td>
@@ -62,19 +54,29 @@
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
       var rows = document.querySelectorAll('#doctorTable tbody tr');
+      var resultsFound = false;
+
       rows.forEach(function(row) {
         var floor = row.cells[0].textContent.toLowerCase();
         var department = row.cells[1].textContent.toLowerCase();
         var category = row.cells[2].textContent.toLowerCase();
         var notes = row.cells[3].textContent.toLowerCase();
 
-        // Show or hide row based on search match
         if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
-          row.style.display = ''; // Show matching row
+          row.style.display = '';
+          resultsFound = true;
         } else {
-          row.style.display = 'none'; // Hide non-matching row
+          row.style.display = 'none';
         }
       });
+
+      // Show "No results" message if no rows match the search
+      var noResultsMessage = document.querySelector('.no-results');
+      if (!resultsFound) {
+        noResultsMessage.style.display = 'block';
+      } else {
+        noResultsMessage.style.display = 'none';
+      }
     }
   </script>
 </body>
