@@ -49,6 +49,8 @@
       // Iterate through the rows of data and create table rows
       data.forEach(function(row) {
         var tr = document.createElement('tr');
+        tr.classList.add('table-row'); // Add a class for easy row selection
+        tr.style.display = 'none'; // Hide the row initially
         tr.innerHTML = `<td>${row['Floor']}</td>
                         <td>${row['Department/Service']}</td>
                         <td>${row['Category']}</td>
@@ -68,9 +70,9 @@
 
         // Show or hide row based on search match
         if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
-          row.style.display = '';
+          row.style.display = ''; // Show matching row
         } else {
-          row.style.display = 'none';
+          row.style.display = 'none'; // Hide non-matching row
         }
       });
     }
