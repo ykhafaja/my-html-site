@@ -33,10 +33,6 @@
       <tr><td>Ground Floor</td><td>Pharmacy</td><td>Amenity</td><td>الصيدلية</td></tr>
       <tr><td>Ground Floor</td><td>Al Liwan Café</td><td>Amenity</td><td>مقهى الليوان</td></tr>
       <tr><td>1st Floor</td><td>Royale Dental Clinic</td><td>Clinic</td><td>عيادة الأسنان رويال</td></tr>
-      <tr><td>1st Floor</td><td>Royale Nutricare</td><td>Clinic</td><td>عيادة التغذية رويال</td></tr>
-      <tr><td>1st Floor</td><td>Element Spa by Banyan Tree</td><td>Amenity</td><td>من بانيان تري</td></tr>
-      <tr><td>1st Floor</td><td>La Royale Events</td><td>Amenity</td><td>لا رويال لتنظيم الفعاليات</td></tr>
-      <tr><td>1st Floor</td><td>Patient Experience Department</td><td>Administration</td><td>قسم تجربة المرضى</td></tr>
       <!-- Add other rows similarly -->
     </tbody>
   </table>
@@ -45,11 +41,15 @@
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
       var rows = document.querySelectorAll('#doctorTable tbody tr');
+      console.log("Search term:", input); // Debugging: check search term
       rows.forEach(function(row) {
         var floor = row.cells[0].textContent.toLowerCase();
         var department = row.cells[1].textContent.toLowerCase();
         var category = row.cells[2].textContent.toLowerCase();
         var notes = row.cells[3].textContent.toLowerCase();
+        
+        // Log the content being checked for debugging
+        console.log(floor, department, category, notes);
 
         // Check if any of the columns contain the search term
         if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
