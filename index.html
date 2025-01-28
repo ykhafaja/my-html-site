@@ -29,22 +29,20 @@
   </table>
 
   <script>
-    // Replace with your published Google Sheets URL
+    // Your provided Google Sheets URL
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pubhtml?gid=0&single=true';
 
-    // Initialize Tabletop.js to fetch data from Google Sheets
     function init() {
       Tabletop.init({
         key: publicSpreadsheetUrl,
         callback: showData,
-        simpleSheet: true
+        simpleSheet: true,
       });
     }
 
-    // Display data in the table
     function showData(data) {
       var tbody = document.querySelector('#doctorTable tbody');
-      tbody.innerHTML = '';  // Clear any existing rows
+      tbody.innerHTML = ''; // Clear any existing rows
       data.forEach(function(row) {
         var tr = document.createElement('tr');
         tr.innerHTML = `<td>${row['Floor']}</td>
@@ -55,7 +53,6 @@
       });
     }
 
-    // Search function to filter through the table
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
       var rows = document.querySelectorAll('#doctorTable tbody tr');
@@ -74,7 +71,6 @@
       });
     }
 
-    // Load data when the window is ready
     window.onload = init;
   </script>
 </body>
