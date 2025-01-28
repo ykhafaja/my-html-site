@@ -54,8 +54,10 @@ th, td {
 }
 
 th {
-  background-color: #691636;
-  color: white;
+  background-color: #691636; /* Brand color for header */
+  color: white;  /* White text color for headers */
+  font-size: 16px;  /* Slightly bigger font size for better readability */
+  font-weight: bold;  /* Make header text bold */
 }
 
 tbody tr:nth-child(even) {
