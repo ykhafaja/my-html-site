@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
@@ -16,7 +16,6 @@
         <tr>
           <th>Floor</th>
           <th>Department/Service</th>
-          <th>Category</th>
           <th>Additional Notes</th>
         </tr>
       </thead>
@@ -25,8 +24,10 @@
   </div>
 
   <script>
+    // Link to the public CSV version of the Google Sheet
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
 
+    // Fetch the CSV data using PapaParse
     Papa.parse(csvUrl, {
       download: true,
       header: true,
@@ -38,13 +39,13 @@
 
     function showData(data) {
       var tbody = document.querySelector('#doctorTable tbody');
-      tbody.innerHTML = ''; 
+      tbody.innerHTML = ''; // Clear any existing rows
 
+      // Iterate through the rows of data and create table rows
       data.forEach(function(row) {
         var tr = document.createElement('tr');
         tr.innerHTML = `<td>${row['Floor']}</td>
                         <td>${row['Department/Service']}</td>
-                        <td>${row['Category']}</td>
                         <td>${row['Additional Notes']}</td>`;
         tbody.appendChild(tr);
       });
@@ -56,10 +57,10 @@
       rows.forEach(function(row) {
         var floor = row.cells[0].textContent.toLowerCase();
         var department = row.cells[1].textContent.toLowerCase();
-        var category = row.cells[2].textContent.toLowerCase();
-        var notes = row.cells[3].textContent.toLowerCase();
+        var notes = row.cells[2].textContent.toLowerCase();
 
-        if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
+        // Show or hide row based on search match
+        if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
           row.style.display = '';
         } else {
           row.style.display = 'none';
