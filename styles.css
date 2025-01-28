@@ -13,6 +13,7 @@ body {
   background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Ensures horizontal scrolling if table is wider */
 }
 
 h1 {
@@ -40,7 +41,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  table-layout: fixed; /* Ensures the table cells are all the same width */
+  table-layout: auto; /* Ensures that the table width adjusts based on content */
 }
 
 th, td {
@@ -49,6 +50,7 @@ th, td {
   text-align: left;
   font-size: 14px;
   word-wrap: break-word; /* Ensures text inside cells wraps correctly */
+  background-color: #fff; /* Makes sure background color is consistent */
 }
 
 th {
