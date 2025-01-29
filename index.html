@@ -10,7 +10,7 @@
 <body>
   <!-- Header Section with Background Image -->
   <header class="header">
-    <h1></h1>
+    <h1>Welcome to Our Doctor Locator</h1>
   </header>
 
   <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
@@ -83,8 +83,8 @@
 
     // Normalize Arabic text by removing diacritics and unnecessary characters
     function normalizeArabicText(text) {
-      // Normalize the text using Unicode NFD form and remove diacritical marks
-      return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').trim();
+      // Normalize Arabic by removing diacritical marks and extra spaces
+      return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').replace(/\s+/g, ' ').trim();
     }
 
     // Search function to handle both Arabic and English search inputs
@@ -92,7 +92,7 @@
       var input = document.getElementById('search').value.toLowerCase().trim();
       var sections = document.querySelectorAll('#doctorTable section');
 
-      // Normalize the input to remove diacritics for better matching
+      // Normalize the input to remove diacritics and make partial matching work
       var normalizedInput = normalizeArabicText(input);
 
       sections.forEach(function(section) {
@@ -103,7 +103,7 @@
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
 
-          // Normalize the floor and department text
+          // Normalize both floor and department text
           var normalizedFloor = normalizeArabicText(floor);
           var normalizedDepartment = normalizeArabicText(department);
 
