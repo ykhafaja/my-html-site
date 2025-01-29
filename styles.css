@@ -14,6 +14,34 @@
   padding: 20px;
 }
 
+/* Search Section */
+.search-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-container label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.search-container .arabic-label {
+  font-family: 'Almarai', sans-serif; /* Arabic font */
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: 'Georgia', serif; /* English font */
+}
+
 /* Table Styles */
 table {
   width: 100%;
@@ -23,11 +51,11 @@ table {
 }
 
 th, td {
-  padding: 12px;
+  padding: 14px;
   border: 1px solid #ddd;
   text-align: center; /* Center text horizontally */
   vertical-align: middle; /* Center text vertically */
-  font-size: 14px;
+  font-size: 16px; /* Increased font size */
   color: #691636; /* Set text color to #691636 */
   white-space: pre-wrap; /* Allow multi-line text (for Alt + Enter) */
   word-wrap: break-word; /* Ensure long words are wrapped */
@@ -53,18 +81,6 @@ tr:nth-child(even) {
 /* Hover effect on table rows */
 tr:hover {
   background-color: #ddd;
-}
-
-/* Search Input */
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
 /* Section styles for each floor */
