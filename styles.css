@@ -1,8 +1,9 @@
-/* General Background for the Body */
+/* General Body Style */
 body {
+  font-family: 'Playfair Display', serif; /* Luxury Font */
+  color: #691636; /* Royal Color */
   margin: 0;
-  font-family: Georgia, serif; /* Default to Georgia font for English */
-  background-color: #f9f9f9; /* Set a light color as the main background */
+  background-color: #f9f9f9; /* Light background for content */
 }
 
 /* Header Section */
@@ -35,8 +36,8 @@ table {
   border-collapse: collapse;
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: Georgia, serif; /* English text in Georgia */
-  color: #691636; /* Set text color to #691636 */
+  font-family: 'Playfair Display', serif; /* English Font */
+  color: #691636; /* Royal Color */
 }
 
 th, td {
@@ -55,16 +56,7 @@ th {
 
 td {
   background-color: #f9f9f9;
-  color: #691636; /* Set text color to #691636 */
-}
-
-/* Arabic font for content (Almarai) */
-table, th, td {
-  font-family: Georgia, Almarai, serif; /* Apply Almarai font if Arabic text */
-}
-
-td, th {
-  text-align: right; /* Align Arabic text properly */
+  color: #691636; /* Royal Color */
 }
 
 /* Alternating row colors */
