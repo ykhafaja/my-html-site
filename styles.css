@@ -9,6 +9,8 @@
   align-items: center;
   color: white;
   text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 /* Table Styles */
@@ -16,21 +18,36 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
+  font-size: 14px;
 }
 
 th {
   background-color: #691636;
   color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 td {
   background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+/* Hover effect on table rows */
+tr:hover {
+  background-color: #ddd;
 }
 
 /* Search Input */
@@ -42,6 +59,7 @@ input[type="text"] {
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 /* Section styles for each floor */
@@ -55,6 +73,9 @@ h2 {
   padding: 10px;
   margin: 0;
   text-align: center;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 /* Divider between sections */
