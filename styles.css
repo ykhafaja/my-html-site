@@ -93,4 +93,43 @@ tr:hover {
   th, td {
     font-size: 14px;
   }
+
+  /* Make table scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Adjust floor name size and add Arabic translations as block elements */
+  .floor-name {
+    font-size: 16px;
+  }
+
+  .floor-name-arabic {
+    font-size: 14px;
+  }
+
+  /* Show content as a list instead of a table on smaller screens */
+  tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+
+  tbody td {
+    display: block;
+    text-align: right;
+    width: 100%;
+  }
+
+  tbody td:first-child {
+    font-weight: bold;
+  }
+
+  tbody td:not(:first-child) {
+    margin-top: 10px;
+  }
 }
