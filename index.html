@@ -4,28 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <img src="https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true" class="header-image" alt="Header Image">
+  <img class="header-image" src="https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true" alt="Header Image">
   <h1>Doctor Locator</h1>
   <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  <table id="doctorTable">
-    <thead>
-      <tr>
-        <th>Floor</th>
-        <th>Department/Service</th>
-        <th>Category</th>
-        <th>القسم</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+
+  <!-- Floor Sections -->
+  <div id="floors-container"></div>
 
   <script>
+    // Link to the public CSV version of the Google Sheet
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
 
+    // Fetch the CSV data using PapaParse
     Papa.parse(csvUrl, {
       download: true,
       header: true,
@@ -36,64 +30,48 @@
     });
 
     function showData(data) {
-      var tbody = document.querySelector('#doctorTable tbody');
-      tbody.innerHTML = '';
+      var container = document.getElementById('floors-container');
+      var currentFloor = '';
 
+      // Iterate through the rows of data and create floor sections
       data.forEach(function(row) {
-        var floorName = row['Floor'];
-        var arabicFloorName = '';
-        
-        // Arabic translations
-        if (floorName === 'Ground Floor') {
-          arabicFloorName = 'الطابق الأرضي';
-        } else if (floorName === '1st Floor') {
-          arabicFloorName = 'الطابق الأول';
-        } else if (floorName === '2nd Floor') {
-          arabicFloorName = 'الطابق الثاني';
-        } else if (floorName === '3rd Floor') {
-          arabicFloorName = 'الطابق الثالث';
-        } else if (floorName === '4th Floor') {
-          arabicFloorName = 'الطابق الرابع';
-        } else if (floorName === '5th Floor') {
-          arabicFloorName = 'الطابق الخامس';
-        } else if (floorName === '6th Floor') {
-          arabicFloorName = 'الطابق السادس';
+        if (row['Floor'] !== currentFloor) {
+          // Create new floor section if the floor changes
+          if (currentFloor !== '') {
+            container.innerHTML += '</div>'; // Close previous floor section
+          }
+          
+          // Start new floor section
+          container.innerHTML += `
+            <div class="floor-section">
+              <div class="floor-heading">${row['Floor']}</div>
+          `;
+          currentFloor = row['Floor'];  // Update the current floor
         }
 
-        var tr = document.createElement('tr');
-        tr.innerHTML = `<td><span class="floor-name">${floorName}</span><span class="floor-name-arabic">(${arabicFloorName})</span></td>
-                        <td>${row['Department/Service']}</td>
-                        <td>${row['Category']}</td>
-                        <td>${row['القسم']}</td>`;
-        tbody.appendChild(tr);
+        // Add a row to the current floor section
+        container.innerHTML += `
+          <div class="floor-row">
+            <strong>${row['Department/Service']}</strong><br>
+            Category: ${row['Category']}<br>
+            Additional Notes: ${row['Additional Notes']}
+          </div>
+        `;
       });
+
+      // Close the last floor section
+      container.innerHTML += '</div>';
     }
 
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
-      var rows = document.querySelectorAll('#doctorTable tbody tr');
-
+      var rows = document.querySelectorAll('.floor-row');
       rows.forEach(function(row) {
-        var floor = row.cells[0].textContent.toLowerCase();
-        var department = row.cells[1].textContent.toLowerCase();
-        var category = row.cells[2].textContent.toLowerCase();
-        var notes = row.cells[3].textContent.toLowerCase();
-
-        if (floor.includes(input) || department.includes(input) || category.includes(input) || notes.includes(input)) {
+        var department = row.textContent.toLowerCase();
+        if (department.includes(input)) {
           row.style.display = '';
-          highlightSearch(row, input);
         } else {
           row.style.display = 'none';
-        }
-      });
-    }
-
-    function highlightSearch(row, input) {
-      var cells = row.querySelectorAll('td');
-      cells.forEach(function(cell) {
-        if (cell.textContent.toLowerCase().includes(input)) {
-          var regex = new RegExp('(' + input + ')', 'gi');
-          cell.innerHTML = cell.textContent.replace(regex, '<span class="search-highlight">$1</span>');
         }
       });
     }
