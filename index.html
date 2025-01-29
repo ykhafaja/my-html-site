@@ -9,10 +9,21 @@
 </head>
 <body>
   <!-- Header Section with Background Image -->
-  <header class="header"></header>
+  <header class="header">
+    <!-- Empty header content since Doctor Locator is removed -->
+  </header>
 
   <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
+  <table id="doctorTable">
+    <thead>
+      <tr>
+        <th>Floor</th>
+        <th>Department/Service</th>
+        <th>القسم</th> <!-- Updated header -->
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
   <script>
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
@@ -27,87 +38,30 @@
     });
 
     function showData(data) {
-      var tableContainer = document.getElementById('doctorTable');
-      tableContainer.innerHTML = ''; // Clear any existing content
+      var tbody = document.querySelector('#doctorTable tbody');
+      tbody.innerHTML = '';
 
-      // Group data by floor
-      var floors = {};
       data.forEach(function(row) {
-        if (!floors[row['Floor']]) {
-          floors[row['Floor']] = [];
-        }
-        floors[row['Floor']].push(row);
+        var tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row['Floor']}</td>
+                        <td>${row['Department/Service']}</td>
+                        <td>${row['القسم']}</td>`; <!-- Updated column data -->
+        tbody.appendChild(tr);
       });
-
-      // Iterate through each floor and create a section
-      for (var floor in floors) {
-        var section = document.createElement('section');
-        
-        // Create a floor header
-        var floorHeader = document.createElement('h2');
-        floorHeader.innerText = floor;
-        section.appendChild(floorHeader);
-
-        // Create the table for this floor
-        var table = document.createElement('table');
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Floor</th>
-              <th>Department/Service</th>
-              <th>القسم</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${floors[floor].map(function(row) {
-              return `
-                <tr>
-                  <td>${row['Floor']}</td>
-                  <td>${row['Department/Service']}</td>
-                  <td>${row['القسم']}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        `;
-
-        section.appendChild(table);
-        
-        // Add a horizontal divider after each floor section
-        var divider = document.createElement('hr');
-        section.appendChild(divider);
-
-        tableContainer.appendChild(section);
-      }
     }
 
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
-      var sections = document.querySelectorAll('#doctorTable section');
+      var rows = document.querySelectorAll('#doctorTable tbody tr');
+      rows.forEach(function(row) {
+        var floor = row.cells[0].textContent.toLowerCase();
+        var department = row.cells[1].textContent.toLowerCase();
+        var notes = row.cells[2].textContent.toLowerCase();
 
-      sections.forEach(function(section) {
-        var rows = section.querySelectorAll('table tbody tr');
-        var floorHeader = section.querySelector('h2');
-        var isAnyRowVisible = false;
-
-        rows.forEach(function(row) {
-          var floor = row.cells[0].textContent.toLowerCase();
-          var department = row.cells[1].textContent.toLowerCase();
-          var notes = row.cells[2].textContent.toLowerCase();
-
-          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
-            row.style.display = '';
-            isAnyRowVisible = true;
-          } else {
-            row.style.display = 'none';
-          }
-        });
-
-        // Show or hide the floor section based on whether any row is visible
-        if (isAnyRowVisible) {
-          section.style.display = '';
+        if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
+          row.style.display = '';
         } else {
-          section.style.display = 'none';
+          row.style.display = 'none';
         }
       });
     }
