@@ -19,27 +19,26 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
+  font-size: 14px;
 }
 
 th {
   background-color: #691636;
   color: white;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 td {
   background-color: #f9f9f9;
-  font-size: 14px;
-  line-height: 1.6;
+  color: #333;
 }
 
 /* Alternating row colors */
@@ -64,28 +63,20 @@ input[type="text"] {
   font-family: Arial, sans-serif;
 }
 
-/* Highlight search results */
-.highlight {
-  background-color: yellow;
-  font-weight: bold;
-  padding: 2px;
-  border-radius: 3px;
-}
-
 /* Section styles for each floor */
 section {
   margin-bottom: 30px;
 }
 
-/* Floor Header Styles */
 h2 {
   background-color: #74613c;
   color: white;
-  padding: 12px;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
   font-size: 1.5rem;
   text-transform: uppercase;
   font-weight: bold;
-  text-align: center;
 }
 
 /* Divider between sections */
