@@ -11,7 +11,7 @@
   <!-- Header Section with Background Image -->
   <header class="header"></header>
 
-  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+  <input type="text" id="search" placeholder="Search for a department or floor..." onkeyup="searchTable()">
   <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
 
   <script>
@@ -55,7 +55,6 @@
             <tr>
               <th>Floor</th>
               <th>Department/Service</th>
-              <th>القسم</th>
             </tr>
           </thead>
           <tbody>
@@ -64,7 +63,6 @@
                 <tr>
                   <td>${row['Floor']}</td>
                   <td>${row['Department/Service']}</td>
-                  <td>${row['القسم']}</td>
                 </tr>
               `;
             }).join('')}
@@ -93,9 +91,8 @@
         rows.forEach(function(row) {
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
-          var notes = row.cells[2].textContent.toLowerCase();
 
-          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
+          if (floor.includes(input) || department.includes(input)) {
             row.style.display = '';
             isAnyRowVisible = true;
           } else {
