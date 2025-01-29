@@ -81,9 +81,17 @@
       }
     }
 
+    // Normalize Arabic text to handle different forms of characters
+    function normalizeArabicText(text) {
+      return text.replace(/[\u064B-\u0652\u0640]/g, '').trim();  // Remove diacritics and certain characters
+    }
+
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase().trim();
       var sections = document.querySelectorAll('#doctorTable section');
+
+      // Normalize the search input for better matching
+      var normalizedInput = normalizeArabicText(input);
 
       sections.forEach(function(section) {
         var rows = section.querySelectorAll('table tbody tr');
@@ -93,8 +101,12 @@
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
 
-          // Check if the input is a partial match in any of the columns
-          if (floor.includes(input) || department.includes(input)) {
+          // Normalize the floor and department text for better matching
+          var normalizedFloor = normalizeArabicText(floor);
+          var normalizedDepartment = normalizeArabicText(department);
+
+          // Check if the normalized input matches any part of the normalized text
+          if (normalizedFloor.includes(normalizedInput) || normalizedDepartment.includes(normalizedInput)) {
             row.style.display = '';
             isAnyRowVisible = true;
           } else {
