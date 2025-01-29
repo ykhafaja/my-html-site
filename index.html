@@ -10,7 +10,7 @@
 <body>
   <!-- Header Section with Background Image -->
   <header class="header">
-    <h1></h1>
+    <h1>Welcome to Our Doctor Locator</h1>
   </header>
 
   <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
@@ -83,7 +83,7 @@
 
     // Normalize Arabic text to handle different forms of characters
     function normalizeArabicText(text) {
-      return text.replace(/[\u064B-\u0652\u0640]/g, '').trim();  // Remove diacritics and certain characters
+      return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').trim();  // Remove diacritics and certain characters
     }
 
     function searchTable() {
