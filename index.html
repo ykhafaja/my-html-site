@@ -83,6 +83,7 @@
 
     // Normalize Arabic text by removing diacritics and unnecessary characters
     function normalizeArabicText(text) {
+      // Normalize the text using Unicode NFD form and remove diacritical marks
       return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').trim();
     }
 
@@ -106,7 +107,7 @@
           var normalizedFloor = normalizeArabicText(floor);
           var normalizedDepartment = normalizeArabicText(department);
 
-          // Check if the normalized input matches any part of the normalized text
+          // Check if the normalized input matches any part of the normalized text (for both Arabic and English)
           if (normalizedFloor.includes(normalizedInput) || normalizedDepartment.includes(normalizedInput)) {
             row.style.display = '';
             isAnyRowVisible = true;
