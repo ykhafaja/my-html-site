@@ -81,16 +81,17 @@
       }
     }
 
-    // Normalize Arabic text to handle different forms of characters
+    // Normalize Arabic text by removing diacritics and other unnecessary characters
     function normalizeArabicText(text) {
-      return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').trim();  // Remove diacritics and certain characters
+      return text.normalize("NFD").replace(/[\u064B-\u0652\u0640]/g, '').trim();
     }
 
+    // Search function to handle both Arabic and English search inputs
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase().trim();
       var sections = document.querySelectorAll('#doctorTable section');
 
-      // Normalize the search input for better matching
+      // Normalize the input to remove diacritics for better matching
       var normalizedInput = normalizeArabicText(input);
 
       sections.forEach(function(section) {
@@ -101,7 +102,7 @@
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
 
-          // Normalize the floor and department text for better matching
+          // Normalize the floor and department text
           var normalizedFloor = normalizeArabicText(floor);
           var normalizedDepartment = normalizeArabicText(department);
 
