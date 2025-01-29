@@ -4,79 +4,110 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <img class="header-image" src="https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true" alt="Header Image">
-  <h1>Doctor Locator</h1>
-  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+  <!-- Header Section with Background Image -->
+  <header class="header"></header>
 
-  <!-- Container for the floor sections -->
-  <div id="floors-container"></div>
+  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+  <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
 
   <script>
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
-
-    // Fetch CSV data using PapaParse
+    
     Papa.parse(csvUrl, {
       download: true,
       header: true,
       dynamicTyping: true,
       complete: function(results) {
         showData(results.data);
-      },
-      error: function(error) {
-        console.error("Error loading CSV data", error);
       }
     });
 
     function showData(data) {
-      var container = document.getElementById('floors-container');
-      var currentFloor = '';
+      var tableContainer = document.getElementById('doctorTable');
+      tableContainer.innerHTML = ''; // Clear any existing content
 
-      container.innerHTML = '';  // Clear the container before adding new content
-
-      // Iterate through the rows of data and create floor sections
+      // Group data by floor
+      var floors = {};
       data.forEach(function(row) {
-        if (row['Floor'] !== currentFloor) {
-          // If floor changes, create a new floor section
-          if (currentFloor !== '') {
-            container.innerHTML += '</div>'; // Close previous floor section
-          }
-
-          // Create a new floor section with its heading
-          container.innerHTML += `
-            <div class="floor-section">
-              <div class="floor-heading">${row['Floor']}<span class="floor-name-arabic">${row['Arabic Floor Name']}</span></div>
-              <div class="floor-row">
-          `;
-          currentFloor = row['Floor'];  // Update the current floor
+        if (!floors[row['Floor']]) {
+          floors[row['Floor']] = [];
         }
-
-        // Add a row to the current floor section
-        container.innerHTML += `
-          <div class="floor-row-content">
-            <strong>${row['Department/Service']}</strong><br>
-            Category: ${row['Category']}<br>
-            Additional Notes: ${row['Additional Notes']}
-          </div>
-        `;
+        floors[row['Floor']].push(row);
       });
 
-      // Close the last floor section
-      container.innerHTML += '</div>';
+      // Iterate through each floor and create a section
+      for (var floor in floors) {
+        var section = document.createElement('section');
+        
+        // Create a floor header
+        var floorHeader = document.createElement('h2');
+        floorHeader.innerText = floor;
+        section.appendChild(floorHeader);
+
+        // Create the table for this floor
+        var table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Floor</th>
+              <th>Department/Service</th>
+              <th>القسم</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${floors[floor].map(function(row) {
+              return `
+                <tr>
+                  <td>${row['Floor']}</td>
+                  <td>${row['Department/Service']}</td>
+                  <td>${row['القسم']}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        `;
+
+        section.appendChild(table);
+        
+        // Add a horizontal divider after each floor section
+        var divider = document.createElement('hr');
+        section.appendChild(divider);
+
+        tableContainer.appendChild(section);
+      }
     }
 
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
-      var rows = document.querySelectorAll('.floor-row-content');
-      rows.forEach(function(row) {
-        var content = row.textContent.toLowerCase();
-        if (content.includes(input)) {
-          row.style.display = '';
+      var sections = document.querySelectorAll('#doctorTable section');
+
+      sections.forEach(function(section) {
+        var rows = section.querySelectorAll('table tbody tr');
+        var floorHeader = section.querySelector('h2');
+        var isAnyRowVisible = false;
+
+        rows.forEach(function(row) {
+          var floor = row.cells[0].textContent.toLowerCase();
+          var department = row.cells[1].textContent.toLowerCase();
+          var notes = row.cells[2].textContent.toLowerCase();
+
+          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
+            row.style.display = '';
+            isAnyRowVisible = true;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        // Show or hide the floor section based on whether any row is visible
+        if (isAnyRowVisible) {
+          section.style.display = '';
         } else {
-          row.style.display = 'none';
+          section.style.display = 'none';
         }
       });
     }
