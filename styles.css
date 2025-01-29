@@ -1,6 +1,6 @@
 /* Header Section */
 .header {
-  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/Background.jpg?raw=true');
+  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
   background-size: cover;
   background-position: center;
   height: 250px;
@@ -42,7 +42,7 @@ th {
 
 td {
   background-color: #f9f9f9;
-  color: #333;
+  color: #691636; /* Set text color for cells */
 }
 
 /* Alternating row colors */
