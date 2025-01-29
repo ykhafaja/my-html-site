@@ -11,16 +11,12 @@
   <!-- Header Section with Background Image -->
   <header class="header"></header>
 
-  <!-- Search Box -->
   <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  
-  <!-- Dynamic Table Content -->
-  <div id="doctorTable"></div> 
+  <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
 
   <script>
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
-
-    // Fetch Data from Google Sheets (CSV)
+    
     Papa.parse(csvUrl, {
       download: true,
       header: true,
@@ -32,7 +28,7 @@
 
     function showData(data) {
       var tableContainer = document.getElementById('doctorTable');
-      tableContainer.innerHTML = ''; // Clear existing content
+      tableContainer.innerHTML = ''; // Clear any existing content
 
       // Group data by floor
       var floors = {};
@@ -43,22 +39,23 @@
         floors[row['Floor']].push(row);
       });
 
-      // Iterate through each floor and create sections
+      // Iterate through each floor and create a section
       for (var floor in floors) {
         var section = document.createElement('section');
         
-        // Floor Header with Arabic Translation
+        // Create a floor header
         var floorHeader = document.createElement('h2');
-        floorHeader.innerHTML = `${floor} - ${getArabicFloorName(floor)}`;
+        floorHeader.innerText = floor;
         section.appendChild(floorHeader);
 
-        // Create Table for Each Floor
+        // Create the table for this floor
         var table = document.createElement('table');
         table.innerHTML = `
           <thead>
             <tr>
               <th>Floor</th>
               <th>Department/Service</th>
+              <th>القسم</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +63,8 @@
               return `
                 <tr>
                   <td>${row['Floor']}</td>
-                  <td>${formatMultilineText(row['Department/Service'])}</td>
+                  <td>${row['Department/Service']}</td>
+                  <td>${row['القسم']}</td>
                 </tr>
               `;
             }).join('')}
@@ -75,7 +73,7 @@
 
         section.appendChild(table);
         
-        // Add a divider between floors
+        // Add a horizontal divider after each floor section
         var divider = document.createElement('hr');
         section.appendChild(divider);
 
@@ -89,15 +87,16 @@
 
       sections.forEach(function(section) {
         var rows = section.querySelectorAll('table tbody tr');
+        var floorHeader = section.querySelector('h2');
         var isAnyRowVisible = false;
 
         rows.forEach(function(row) {
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
+          var notes = row.cells[2].textContent.toLowerCase();
 
-          if (floor.includes(input) || department.includes(input)) {
+          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
             row.style.display = '';
-            highlightText(row, input);
             isAnyRowVisible = true;
           } else {
             row.style.display = 'none';
@@ -105,29 +104,12 @@
         });
 
         // Show or hide the floor section based on whether any row is visible
-        section.style.display = isAnyRowVisible ? '' : 'none';
+        if (isAnyRowVisible) {
+          section.style.display = '';
+        } else {
+          section.style.display = 'none';
+        }
       });
-    }
-
-    function getArabicFloorName(floor) {
-      const floorTranslations = {
-        "GF": "الطابق الأرضي",
-        "1st Floor": "الطابق الأول",
-        "2nd Floor": "الطابق الثاني",
-        "3rd Floor": "الطابق الثالث",
-        "4th Floor": "الطابق الرابع",
-        "5th Floor": "الطابق الخامس",
-        "6th Floor": "الطابق السادس"
-      };
-      return floorTranslations[floor] || "";
-    }
-
-    function formatMultilineText(text) {
-      return text ? text.replace(/\n/g, '<br>') : '';
-    }
-
-    function highlightText(row, searchText) {
-      row.innerHTML = row.innerHTML.replace(new RegExp(searchText, "gi"), match => `<span class="highlight">${match}</span>`);
     }
   </script>
 </body>
