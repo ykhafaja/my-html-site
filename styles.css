@@ -110,7 +110,27 @@ tr:hover {
     font-size: 14px;
   }
 
-  /* Show content as a list instead of a table on smaller screens */
+  /* Separate floors and make them visible as blocks */
+  .floor-section {
+    display: block;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  /* Separate each floor */
+  .floor-heading {
+    background-color: #74613c;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* Row styling for mobile view */
   tbody tr {
     display: block;
     margin-bottom: 15px;
