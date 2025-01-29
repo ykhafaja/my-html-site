@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor Locator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
-  <!-- Include the Google Fonts for Almarai and Georgia -->
-  <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Header Section with Background Image -->
-  <header class="header"></header>
+  <header class="header">
+    <h1>Welcome to Our Doctor Locator</h1>
+  </header>
 
-  <input type="text" id="search" placeholder="Search for a department or floor..." onkeyup="searchTable()">
+  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
   <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
 
   <script>
@@ -114,4 +114,3 @@
   </script>
 </body>
 </html>
-
