@@ -1,137 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Locator</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-</head>
-<body>
-  <!-- Header Section with Background Image -->
-  <header class="header"></header>
+/* Header Section */
+.header {
+  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
+  background-size: cover;
+  background-position: center;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 20px;
+}
 
-  <!-- Search Box -->
-  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  
-  <!-- Dynamic Table Content -->
-  <div id="doctorTable"></div> 
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  <script>
-    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
 
-    // Fetch Data from Google Sheets (CSV)
-    Papa.parse(csvUrl, {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        showData(results.data);
-      }
-    });
-
-    function showData(data) {
-      var tableContainer = document.getElementById('doctorTable');
-      tableContainer.innerHTML = ''; // Clear existing content
-
-      // Group data by floor
-      var floors = {};
-      data.forEach(function(row) {
-        if (!floors[row['Floor']]) {
-          floors[row['Floor']] = [];
-        }
-        floors[row['Floor']].push(row);
-      });
-
-      // Iterate through each floor and create sections
-      for (var floor in floors) {
-        var section = document.createElement('section');
-        
-        // Floor Header with Arabic Translation
-        var floorHeader = document.createElement('h2');
-        floorHeader.innerHTML = `${floor} - ${getArabicFloorName(floor)}`;
-        section.appendChild(floorHeader);
-
-        // Create Table for Each Floor
-        var table = document.createElement('table');
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Floor</th>
-              <th>Department/Service</th>
-              <th>القسم</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${floors[floor].map(function(row) {
-              return `
-                <tr>
-                  <td>${row['Floor']}</td>
-                  <td>${formatMultilineText(row['Department/Service'])}</td>
-                  <td>${formatMultilineText(row['القسم'])}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        `;
-
-        section.appendChild(table);
-        
-        // Add a divider between floors
-        var divider = document.createElement('hr');
-        section.appendChild(divider);
-
-        tableContainer.appendChild(section);
-      }
-    }
-
-    function searchTable() {
-      var input = document.getElementById('search').value.toLowerCase();
-      var sections = document.querySelectorAll('#doctorTable section');
-
-      sections.forEach(function(section) {
-        var rows = section.querySelectorAll('table tbody tr');
-        var isAnyRowVisible = false;
-
-        rows.forEach(function(row) {
-          var floor = row.cells[0].textContent.toLowerCase();
-          var department = row.cells[1].textContent.toLowerCase();
-          var notes = row.cells[2].textContent.toLowerCase();
-
-          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
-            row.style.display = '';
-            highlightText(row, input);
-            isAnyRowVisible = true;
-          } else {
-            row.style.display = 'none';
-          }
-        });
-
-        // Show or hide the floor section based on whether any row is visible
-        section.style.display = isAnyRowVisible ? '' : 'none';
-      });
-    }
-
-    function getArabicFloorName(floor) {
-      const floorTranslations = {
-        "GF": "الطابق الأرضي",
-        "1st Floor": "الطابق الأول",
-        "2nd Floor": "الطابق الثاني",
-        "3rd Floor": "الطابق الثالث",
-        "4th Floor": "الطابق الرابع",
-        "5th Floor": "الطابق الخامس",
-        "6th Floor": "الطابق السادس"
-      };
-      return floorTranslations[floor] || "";
-    }
-
-    function formatMultilineText(text) {
-      return text ? text.replace(/\n/g, '<br>') : '';
-    }
-
-    function highlightText(row, searchText) {
-      row.innerHTML = row.innerHTML.replace(new RegExp(searchText, "gi"), match => `<span class="highlight">${match}</span>`);
-    }
-  </script>
-</body>
-</html>
+th {
+  background-color: #
