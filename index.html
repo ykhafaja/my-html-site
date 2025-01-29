@@ -82,18 +82,18 @@
     }
 
     function searchTable() {
-      var input = document.getElementById('search').value.toLowerCase();
+      var input = document.getElementById('search').value.toLowerCase().trim();
       var sections = document.querySelectorAll('#doctorTable section');
 
       sections.forEach(function(section) {
         var rows = section.querySelectorAll('table tbody tr');
-        var floorHeader = section.querySelector('h2');
         var isAnyRowVisible = false;
 
         rows.forEach(function(row) {
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
 
+          // Check if the input is a partial match in any of the columns
           if (floor.includes(input) || department.includes(input)) {
             row.style.display = '';
             isAnyRowVisible = true;
