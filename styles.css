@@ -11,6 +11,7 @@
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
+  padding: 20px;
 }
 
 /* Table Styles */
@@ -81,4 +82,6 @@ h2 {
 /* Divider between sections */
 hr {
   border: 1px solid #ddd;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
