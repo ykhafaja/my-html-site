@@ -28,7 +28,9 @@ th, td {
   text-align: center; /* Center text horizontally */
   vertical-align: middle; /* Center text vertically */
   font-size: 14px;
-  white-space: normal; /* Allow line breaks if necessary */
+  color: #691636; /* Set text color to #691636 */
+  white-space: pre-wrap; /* Allow multi-line text (for Alt + Enter) */
+  word-wrap: break-word; /* Ensure long words are wrapped */
 }
 
 th {
