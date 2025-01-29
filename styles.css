@@ -3,7 +3,7 @@
   background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
   background-size: cover;
   background-position: center;
-  height: 250px;  /* Adjust the height as needed */
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,4 +42,22 @@ input[type="text"] {
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+/* Section styles for each floor */
+section {
+  margin-bottom: 30px;
+}
+
+h2 {
+  background-color: #74613c;
+  color: white;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+}
+
+/* Divider between sections */
+hr {
+  border: 1px solid #ddd;
 }
