@@ -13,7 +13,13 @@
     <h1>Welcome to Our Doctor Locator</h1>
   </header>
 
-  <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+  <!-- Search Section -->
+  <div class="search-container">
+    <label for="search">Search for a Doctor or Department Name:</label> <!-- English label -->
+    <label for="search" class="arabic-label">ابحث عن طبيب أو اسم قسم:</label> <!-- Arabic label -->
+    <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
+  </div>
+
   <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
 
   <script>
