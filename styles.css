@@ -1,6 +1,6 @@
 /* General Body Style */
 body {
-  font-family: 'Playfair Display', serif; /* Luxury Font */
+  font-family: 'Times New Roman', serif; /* Luxury Font */
   color: #691636; /* Royal Color */
   margin: 0;
   background-color: #f9f9f9; /* Light background for content */
@@ -36,7 +36,7 @@ table {
   border-collapse: collapse;
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Playfair Display', serif; /* English Font */
+  font-family: 'Times New Roman', serif; /* English Font */
   color: #691636; /* Royal Color */
 }
 
