@@ -9,111 +9,98 @@
 </head>
 <body>
   <!-- Header Section with Background Image -->
-  <header class="header">
-    <h1></h1>
-  </header>
+  <header class="header"></header>
 
-  <!-- Search Section -->
-  <div class="search-container">
-    <label for="search">Search for a Doctor or Department Name:</label> <!-- English label -->
-    <label for="search" class="arabic-label">ابحث عن طبيب أو اسم قسم:</label> <!-- Arabic label -->
-    <input type="text" id="search" placeholder="Search for a department, service, or floor..." onkeyup="searchTable()">
-  </div>
+  <!-- Search Input with Label -->
+  <label for="search">Search for a department, service, or floor (English/Arabic):</label>
+  <input type="text" id="search" placeholder="Doctor or department name to search..." onkeyup="searchTable()">
 
-  <div id="doctorTable"></div> <!-- Dynamic content will be loaded here -->
+  <!-- Dynamic Content for Table -->
+  <div id="doctorTable" class="hidden"></div> 
 
   <script>
     var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
-    
+    var tableData = []; // Store data in a global variable
+
     Papa.parse(csvUrl, {
       download: true,
       header: true,
       dynamicTyping: true,
       complete: function(results) {
-        showData(results.data);
+        tableData = results.data; // Store parsed data
       }
     });
 
-    function showData(data) {
-      var tableContainer = document.getElementById('doctorTable');
-      tableContainer.innerHTML = ''; // Clear any existing content
-
-      // Group data by floor
-      var floors = {};
-      data.forEach(function(row) {
-        if (!floors[row['Floor']]) {
-          floors[row['Floor']] = [];
-        }
-        floors[row['Floor']].push(row);
-      });
-
-      // Iterate through each floor and create a section
-      for (var floor in floors) {
-        var section = document.createElement('section');
-        
-        // Create a floor header
-        var floorHeader = document.createElement('h2');
-        floorHeader.innerText = floor;
-        section.appendChild(floorHeader);
-
-        // Create the table for this floor
-        var table = document.createElement('table');
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Floor</th>
-              <th>Department/Service</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${floors[floor].map(function(row) {
-              return `
-                <tr>
-                  <td>${row['Floor']}</td>
-                  <td>${row['Department/Service']}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        `;
-
-        section.appendChild(table);
-        
-        // Add a horizontal divider after each floor section
-        var divider = document.createElement('hr');
-        section.appendChild(divider);
-
-        tableContainer.appendChild(section);
-      }
-    }
-
     function searchTable() {
       var input = document.getElementById('search').value.toLowerCase();
-      var sections = document.querySelectorAll('#doctorTable section');
+      var tableContainer = document.getElementById('doctorTable');
+      tableContainer.innerHTML = ''; // Clear existing content
 
-      sections.forEach(function(section) {
-        var rows = section.querySelectorAll('table tbody tr');
-        var isAnyRowVisible = false;
+      // Filter data based on search input
+      var filteredData = tableData.filter(function(row) {
+        var floor = row['Floor'] ? row['Floor'].toLowerCase() : '';
+        var department = row['Department/Service'] ? row['Department/Service'].toLowerCase() : '';
+        return floor.includes(input) || department.includes(input);
+      });
 
-        rows.forEach(function(row) {
-          var floor = row.cells[0].textContent.toLowerCase();
-          var department = row.cells[1].textContent.toLowerCase();
+      if (filteredData.length > 0) {
+        // Show the table container
+        tableContainer.classList.remove('hidden');
 
-          if (floor.includes(input) || department.includes(input)) {
-            row.style.display = '';
-            isAnyRowVisible = true;
-          } else {
-            row.style.display = 'none';
+        // Group filtered data by floor
+        var floors = {};
+        filteredData.forEach(function(row) {
+          if (!floors[row['Floor']]) {
+            floors[row['Floor']] = [];
           }
+          floors[row['Floor']].push(row);
         });
 
-        // Show or hide the floor section based on whether any row is visible
-        if (isAnyRowVisible) {
-          section.style.display = '';
-        } else {
-          section.style.display = 'none';
+        // Iterate through each floor and create a section
+        for (var floor in floors) {
+          var section = document.createElement('section');
+
+          // Create a floor header
+          var floorHeader = document.createElement('h2');
+          floorHeader.innerText = floor;
+          section.appendChild(floorHeader);
+
+          // Create the table for this floor
+          var table = document.createElement('table');
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Floor</th>
+                <th>Department/Service</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${floors[floor].map(function(row) {
+                return `
+                  <tr>
+                    <td>${row['Floor']}</td>
+                    <td>${row['Department/Service']}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          `;
+
+          section.appendChild(table);
+
+          // Add a horizontal divider after each floor section
+          var divider = document.createElement('hr');
+          section.appendChild(divider);
+
+          tableContainer.appendChild(section);
         }
-      });
+      } else {
+        // If no results found, display message
+        tableContainer.classList.remove('hidden');
+        var noResultsMessage = document.createElement('p');
+        noResultsMessage.innerText = 'No results found for your search.';
+        tableContainer.appendChild(noResultsMessage);
+      }
     }
   </script>
 </body>
