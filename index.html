@@ -59,6 +59,7 @@
             <tr>
               <th>Floor</th>
               <th>Department/Service</th>
+              <th>القسم</th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +68,7 @@
                 <tr>
                   <td>${row['Floor']}</td>
                   <td>${formatMultilineText(row['Department/Service'])}</td>
+                  <td>${formatMultilineText(row['القسم'])}</td>
                 </tr>
               `;
             }).join('')}
@@ -94,8 +96,9 @@
         rows.forEach(function(row) {
           var floor = row.cells[0].textContent.toLowerCase();
           var department = row.cells[1].textContent.toLowerCase();
+          var notes = row.cells[2].textContent.toLowerCase();
 
-          if (floor.includes(input) || department.includes(input)) {
+          if (floor.includes(input) || department.includes(input) || notes.includes(input)) {
             row.style.display = '';
             highlightText(row, input);
             isAnyRowVisible = true;
