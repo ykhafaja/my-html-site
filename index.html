@@ -40,7 +40,8 @@
       var filteredData = tableData.filter(function(row) {
         var floor = row['Floor'] ? row['Floor'].toLowerCase() : '';
         var department = row['Department/Service'] ? row['Department/Service'].toLowerCase() : '';
-        return floor.includes(input) || department.includes(input);
+        var notes = row['القسم'] ? row['القسم'].toLowerCase() : ''; // Arabic column
+        return floor.includes(input) || department.includes(input) || notes.includes(input);
       });
 
       if (filteredData.length > 0) {
