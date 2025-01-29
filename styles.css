@@ -1,4 +1,4 @@
-/* Header Section */
+ /* Header Section */
 .header {
   background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
   background-size: cover;
@@ -93,10 +93,4 @@ hr {
   border: 1px solid #ddd;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-#doctorTable {
-  background: rgba(255, 255, 255, 0.8); /* White background with 80% opacity */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
