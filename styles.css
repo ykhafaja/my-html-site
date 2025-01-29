@@ -1,14 +1,6 @@
-/* General Body Style */
-body {
-  font-family: 'Times New Roman', serif; /* Luxury Font */
-  color: #691636; /* Royal Color */
-  margin: 0;
-  background-color: #f9f9f9; /* Light background for content */
-}
-
 /* Header Section */
 .header {
-  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
+  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/Background.jpg?raw=true');
   background-size: cover;
   background-position: center;
   height: 250px;
@@ -22,29 +14,21 @@ body {
   padding: 20px;
 }
 
-/* Table Container with Background Image */
-#doctorTable {
-  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/Background.jpg?raw=true');
-  background-size: cover;
-  background-position: center;
-  padding: 20px;
-}
-
 /* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Times New Roman', serif; /* English Font */
-  color: #691636; /* Royal Color */
 }
 
 th, td {
   padding: 12px;
   border: 1px solid #ddd;
-  text-align: left;
+  text-align: center; /* Center text horizontally */
+  vertical-align: middle; /* Center text vertically */
   font-size: 14px;
+  white-space: normal; /* Allow line breaks if necessary */
 }
 
 th {
@@ -56,7 +40,7 @@ th {
 
 td {
   background-color: #f9f9f9;
-  color: #691636; /* Royal Color */
+  color: #333;
 }
 
 /* Alternating row colors */
