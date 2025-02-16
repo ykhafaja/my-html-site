@@ -59,25 +59,33 @@
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
     const scriptUrl = "https://script.google.com/macros/s/AKfycbxTUL7ICdWYMqWhaJHYpEzcPo2OlifyyByVaHydMzUJx1EDUDvChgMxPHIprx8OjFIM/exec";
 
-    function fetchEmployeeData() {
-      var empNumber = document.getElementById("empNumber").value;
-      fetch(sheetUrl)
-        .then(response => response.text())
-        .then(csvText => {
-          var rows = csvText.split("\n").map(row => row.split(","));
-          var headers = rows[0];
-          var empIndex = headers.indexOf("Employee Number (Emp. No)");
-          var empData = rows.find(row => row[empIndex] === empNumber);
-          if (empData) {
-            document.getElementById("name").value = empData[1];
-            document.getElementById("dob").value = empData[2];
-            document.getElementById("gender").value = empData[3];
-            document.getElementById("civilID").value = empData[4];
-          } else {
-            alert("Employee not found");
-          }
-        });
-    }
+   function fetchEmployeeData() {
+  var empNumber = document.getElementById("empNumber").value.trim(); // Trim spaces
+  fetch(sheetUrl)
+    .then(response => response.text())
+    .then(csvText => {
+      var rows = csvText.split("\n").map(row => row.split(","));
+      var headers = rows[0].map(header => header.trim()); // Trim column names
+      var empIndex = headers.indexOf("Employee Number (Emp. No)");
+      
+      if (empIndex === -1) {
+        alert("Column 'Employee Number (Emp. No)' not found. Check the Google Sheet!");
+        return;
+      }
+      
+      var empData = rows.find(row => row[empIndex]?.trim() === empNumber);
+      
+      if (empData) {
+        document.getElementById("name").value = empData[1] || "";
+        document.getElementById("dob").value = empData[2] || "";
+        document.getElementById("gender").value = empData[3] || "";
+        document.getElementById("civilID").value = empData[4] || "";
+      } else {
+        alert("Employee not found. Check the entered number.");
+      }
+    })
+    .catch(error => console.error("Error fetching data:", error));
+}
 
     function submitEmployeeData(event) {
       event.preventDefault();
