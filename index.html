@@ -4,41 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Details Form</title>
-  <script src="https://apis.google.com/js/api.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="header">
@@ -90,15 +56,15 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbzoOqYesbtH6caKwyvEjq-_n-hvxe7us141I4OCgJ__PqX6hkyUyvHsbJoGdHMs6dkl/exec"; // New script URL
-
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwsZjvhFcFjqsdzL7uh7y1woXqkI2Hkvq772GrffVt1smbrZwCAkYmrnW8zRbxk1vQN/exec";
+    
     function fetchEmployeeData() {
-      var empNumber = document.getElementById("empNumber").value.trim();
+      var empNumber = document.getElementById("empNumber").value.trim(); // Trim spaces
       fetch(sheetUrl)
         .then(response => response.text())
         .then(csvText => {
           var rows = csvText.split("\n").map(row => row.split(","));
-          var headers = rows[0].map(header => header.trim());
+          var headers = rows[0].map(header => header.trim()); // Trim column names
           var empIndex = headers.indexOf("Employee Number (Emp. No)");
           
           if (empIndex === -1) {
@@ -122,7 +88,6 @@
 
     function submitEmployeeData(event) {
       event.preventDefault();
-
       var data = {
         empNumber: document.getElementById("empNumber").value,
         nationality: document.getElementById("nationality").value,
@@ -134,11 +99,13 @@
         validTillCivilID: document.getElementById("validTillCivilID").value
       };
 
+      console.log("Data to be sent:", data); // Log data to be sent
+
       fetch(scriptUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "*", 
           "Access-Control-Allow-Methods": "POST, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type"
         },
@@ -147,10 +114,10 @@
       .then(response => response.json())
       .then(result => {
         if (result.status === 'success') {
-          alert(result.message); // Success message
-          document.getElementById("employeeForm").reset(); // Reset form after submission
+          alert(result.message);
+          document.getElementById("employeeForm").reset();
         } else {
-          alert(result.message); // Error message
+          alert(result.message);
         }
       })
       .catch(error => {
