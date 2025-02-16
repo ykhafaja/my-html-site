@@ -1,121 +1,125 @@
-/* Global Settings */
-body {
-  font-family: 'Georgia', serif; /* Default font for English */
-  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/Background.jpg?raw=true');
-  background-size: cover;
-  background-position: center;
-  color: #691636; /* Text color for the page */
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Details Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Employee Information</h1>
+  </header>
+  
+  <div class="form-container">
+    <label for="empNumber">Enter Employee Number:</label>
+    <input type="text" id="empNumber" placeholder="Enter Employee Number">
+    <button onclick="fetchEmployeeData()">Fetch Data</button>
+    
+    <form id="employeeForm" onsubmit="submitEmployeeData(event)">
+      <label>Name:</label>
+      <input type="text" id="name" disabled>
+      
+      <label>Date of Birth:</label>
+      <input type="text" id="dob" disabled>
+      
+      <label>Gender:</label>
+      <input type="text" id="gender" disabled>
+      
+      <label>Civil ID No:</label>
+      <input type="text" id="civilID" disabled>
+      
+      <label>Nationality:</label>
+      <input type="text" id="nationality">
+      
+      <label>Marital Status:</label>
+      <input type="text" id="maritalStatus">
+      
+      <label>Passport No:</label>
+      <input type="text" id="passportNo">
+      
+      <label>Place of Issue:</label>
+      <input type="text" id="placeOfIssue">
+      
+      <label>Date of Issue:</label>
+      <input type="date" id="dateOfIssue">
+      
+      <label>Valid Till (Passport):</label>
+      <input type="date" id="validTillPassport">
+      
+      <label>Valid Till (Civil ID):</label>
+      <input type="date" id="validTillCivilID">
+      
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
-/* Header Section */
-.header {
-  background-image: url('https://github.com/ykhafaja/my-html-site/blob/main/About_banner-about.jpg?raw=true');
-  background-size: cover;
-  background-position: center;
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 20px;
-}
+  <script>
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzSiqGaMd8YsNr4MJHu80Xc7FoB007OPtU8fpSJrhyA88dN5gILRVW0gavXgRbTOeVVUy_mtggE4h7/pub?output=csv";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbyTThFcrijIfhgZCfcEJy9aOOw8y8qIrXjGh-i0rVbRRH9KoskrH4zMnNKIIPE7sBBy/exec";
+    
+    function fetchEmployeeData() {
+      var empNumber = document.getElementById("empNumber").value.trim();
+      fetch(sheetUrl)
+        .then(response => response.text())
+        .then(csvText => {
+          var rows = csvText.split("\n").map(row => row.split(","));
+          var headers = rows[0].map(header => header.trim());
+          var empIndex = headers.indexOf("Employee Number (Emp. No)");
+          
+          if (empIndex === -1) {
+            alert("Column 'Employee Number (Emp. No)' not found. Check the Google Sheet!");
+            return;
+          }
+          
+          var empData = rows.find(row => row[empIndex]?.trim() === empNumber);
+          
+          if (empData) {
+            document.getElementById("name").value = empData[1] || "";
+            document.getElementById("dob").value = empData[2] || "";
+            document.getElementById("gender").value = empData[3] || "";
+            document.getElementById("civilID").value = empData[4] || "";
+          } else {
+            alert("Employee not found. Check the entered number.");
+          }
+        })
+        .catch(error => console.error("Error fetching data:", error));
+    }
 
-/* Search Bar and Label */
-label {
-  font-size: 1.2rem;
-  color: #691636;
-  display: block;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
+    function submitEmployeeData(event) {
+      event.preventDefault();
+      var data = {
+        empNumber: document.getElementById("empNumber").value,
+        nationality: document.getElementById("nationality").value,
+        maritalStatus: document.getElementById("maritalStatus").value,
+        passportNo: document.getElementById("passportNo").value,
+        placeOfIssue: document.getElementById("placeOfIssue").value,
+        dateOfIssue: document.getElementById("dateOfIssue").value,
+        validTillPassport: document.getElementById("validTillPassport").value,
+        validTillCivilID: document.getElementById("validTillCivilID").value
+      };
 
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  border: 1px solid #691636; /* Border color set to official color */
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* Table Styles */
-#doctorTable {
-  display: none;
-}
-
-#doctorTable.show {
-  display: block;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
-  font-size: 16px; /* Increased font size */
-}
-
-th {
-  background-color: #691636;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-td {
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-/* Alternating row colors */
-tr:nth-child(even) {
-  background-color: #f4f4f4;
-}
-
-/* Hover effect on table rows */
-tr:hover {
-  background-color: #ddd;
-}
-
-/* Section styles for each floor */
-section {
-  margin-bottom: 30px;
-}
-
-h2 {
-  background-color: #74613c;
-  color: white;
-  padding: 10px;
-  margin: 0;
-  text-align: center;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-/* Divider between sections */
-hr {
-  border: 1px solid #ddd;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-/* No results message */
-#doctorTable p {
-  font-size: 1.2rem;
-  color: #691636;
-  text-align: center;
-  margin-top: 20px;
-}
+      fetch(scriptUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.status === 'success') {
+          alert(result.message);
+          document.getElementById("employeeForm").reset();
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("There was an error submitting the data.");
+      });
+    }
+  </script>
+</body>
+</html>
