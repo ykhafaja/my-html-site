@@ -3,105 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doctor Locator</title>
+  <title>Employee Details Form</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
 </head>
 <body>
-  <!-- Header Section with Background Image -->
-  <header class="header"></header>
-
-  <!-- Search Input with Label -->
-  <label for="search">Search for a department, service, or floor (English/Arabic):</label>
-  <input type="text" id="search" placeholder="Doctor or department name to search..." onkeyup="searchTable()">
-
-  <!-- Dynamic Content for Table -->
-  <div id="doctorTable" class="hidden"></div> 
+  <header class="header">
+    <h1>Employee Information</h1>
+  </header>
+  
+  <div class="form-container">
+    <label for="empNumber">Enter Employee Number:</label>
+    <input type="text" id="empNumber" placeholder="Enter Employee Number">
+    <button onclick="fetchEmployeeData()">Fetch Data</button>
+    
+    <form id="employeeForm" onsubmit="submitEmployeeData(event)">
+      <label>Name:</label>
+      <input type="text" id="name" disabled>
+      
+      <label>Date of Birth:</label>
+      <input type="text" id="dob" disabled>
+      
+      <label>Gender:</label>
+      <input type="text" id="gender" disabled>
+      
+      <label>Civil ID No:</label>
+      <input type="text" id="civilID" disabled>
+      
+      <label>Nationality:</label>
+      <input type="text" id="nationality">
+      
+      <label>Marital Status:</label>
+      <input type="text" id="maritalStatus">
+      
+      <label>Passport No:</label>
+      <input type="text" id="passportNo">
+      
+      <label>Place of Issue:</label>
+      <input type="text" id="placeOfIssue">
+      
+      <label>Date of Issue:</label>
+      <input type="date" id="dateOfIssue">
+      
+      <label>Valid Till (Passport):</label>
+      <input type="date" id="validTillPassport">
+      
+      <label>Valid Till (Civil ID):</label>
+      <input type="date" id="validTillCivilID">
+      
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
   <script>
-    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThqvDdT8gY65dr-DbNdiE8SMGPaWkrTEr7ZG-UMfl3XDRfIlMZmIwymtF84TwP0Glr17X74xrXHiwX/pub?gid=0&single=true&output=csv';
-    var tableData = []; // Store data in a global variable
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxTUL7ICdWYMqWhaJHYpEzcPo2OlifyyByVaHydMzUJx1EDUDvChgMxPHIprx8OjFIM/exec";
 
-    Papa.parse(csvUrl, {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        tableData = results.data; // Store parsed data
-      }
-    });
-
-    function searchTable() {
-      var input = document.getElementById('search').value.toLowerCase();
-      var tableContainer = document.getElementById('doctorTable');
-      tableContainer.innerHTML = ''; // Clear existing content
-
-      // Filter data based on search input
-      var filteredData = tableData.filter(function(row) {
-        var floor = row['Floor'] ? row['Floor'].toLowerCase() : '';
-        var department = row['Department/Service'] ? row['Department/Service'].toLowerCase() : '';
-        var notes = row['القسم'] ? row['القسم'].toLowerCase() : ''; // Arabic column
-        return floor.includes(input) || department.includes(input) || notes.includes(input);
-      });
-
-      if (filteredData.length > 0) {
-        // Show the table container
-        tableContainer.classList.remove('hidden');
-
-        // Group filtered data by floor
-        var floors = {};
-        filteredData.forEach(function(row) {
-          if (!floors[row['Floor']]) {
-            floors[row['Floor']] = [];
+    function fetchEmployeeData() {
+      var empNumber = document.getElementById("empNumber").value;
+      fetch(sheetUrl)
+        .then(response => response.text())
+        .then(csvText => {
+          var rows = csvText.split("\n").map(row => row.split(","));
+          var headers = rows[0];
+          var empIndex = headers.indexOf("Employee Number (Emp. No)");
+          var empData = rows.find(row => row[empIndex] === empNumber);
+          if (empData) {
+            document.getElementById("name").value = empData[1];
+            document.getElementById("dob").value = empData[2];
+            document.getElementById("gender").value = empData[3];
+            document.getElementById("civilID").value = empData[4];
+          } else {
+            alert("Employee not found");
           }
-          floors[row['Floor']].push(row);
         });
+    }
 
-        // Iterate through each floor and create a section
-        for (var floor in floors) {
-          var section = document.createElement('section');
+    function submitEmployeeData(event) {
+      event.preventDefault();
+      var data = {
+        empNumber: document.getElementById("empNumber").value,
+        nationality: document.getElementById("nationality").value,
+        maritalStatus: document.getElementById("maritalStatus").value,
+        passportNo: document.getElementById("passportNo").value,
+        placeOfIssue: document.getElementById("placeOfIssue").value,
+        dateOfIssue: document.getElementById("dateOfIssue").value,
+        validTillPassport: document.getElementById("validTillPassport").value,
+        validTillCivilID: document.getElementById("validTillCivilID").value
+      };
 
-          // Create a floor header
-          var floorHeader = document.createElement('h2');
-          floorHeader.innerText = floor;
-          section.appendChild(floorHeader);
-
-          // Create the table for this floor
-          var table = document.createElement('table');
-          table.innerHTML = `
-            <thead>
-              <tr>
-                <th>Floor</th>
-                <th>Department/Service</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${floors[floor].map(function(row) {
-                return `
-                  <tr>
-                    <td>${row['Floor']}</td>
-                    <td>${row['Department/Service']}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          `;
-
-          section.appendChild(table);
-
-          // Add a horizontal divider after each floor section
-          var divider = document.createElement('hr');
-          section.appendChild(divider);
-
-          tableContainer.appendChild(section);
-        }
-      } else {
-        // If no results found, display message
-        tableContainer.classList.remove('hidden');
-        var noResultsMessage = document.createElement('p');
-        noResultsMessage.innerText = 'No results found for your search.';
-        tableContainer.appendChild(noResultsMessage);
-      }
+      fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(result => alert(result))
+      .catch(error => console.error("Error:", error));
     }
   </script>
 </body>
