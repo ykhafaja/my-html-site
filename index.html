@@ -90,7 +90,7 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbzkzr4a6uSebqnkRrbzrDEjEdqV8wXf8zA9NYAjVvezzvCtTkWyfrwYsKH3rGKjNZrX/exec"; // New script URL
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzoOqYesbtH6caKwyvEjq-_n-hvxe7us141I4OCgJ__PqX6hkyUyvHsbJoGdHMs6dkl/exec"; // New script URL
 
     function fetchEmployeeData() {
       var empNumber = document.getElementById("empNumber").value.trim();
@@ -147,10 +147,10 @@
       .then(response => response.json())
       .then(result => {
         if (result.status === 'success') {
-          alert(result.message);
-          document.getElementById("employeeForm").reset();
+          alert(result.message); // Success message
+          document.getElementById("employeeForm").reset(); // Reset form after submission
         } else {
-          alert(result.message); 
+          alert(result.message); // Error message
         }
       })
       .catch(error => {
