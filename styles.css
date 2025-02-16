@@ -56,8 +56,8 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzSiqGaMd8YsNr4MJHu80Xc7FoB007OPtU8fpSJrhyA88dN5gILRVW0gavXgRbTOeVVUy_mtggE4h7/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxB78I9Zd7LIjgKuyvlY_i8RKYawiRYhkErV0XYtb6l9Nf3NT6P1GuAldN9bl6vLCcy/exec";
-    
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbw6LkUGIVxQHB_kqqqBnWrjPbxH8ZuBFrJD0aGLa71iaOra6ekxnzE7ReTuubu8ubbC/exec";
+
     function fetchEmployeeData() {
       var empNumber = document.getElementById("empNumber").value.trim();
       fetch(sheetUrl)
@@ -66,12 +66,12 @@
           var rows = csvText.split("\n").map(row => row.split(","));
           var headers = rows[0].map(header => header.trim());
           var empIndex = headers.indexOf("Employee Number (Emp. No)");
-          
+
           if (empIndex === -1) {
             alert("Column 'Employee Number (Emp. No)' not found. Check the Google Sheet!");
             return;
           }
-          
+
           var empData = rows.find(row => row[empIndex]?.trim() === empNumber);
           
           if (empData) {
@@ -88,6 +88,7 @@
 
     function submitEmployeeData(event) {
       event.preventDefault();
+
       var data = {
         empNumber: document.getElementById("empNumber").value,
         nationality: document.getElementById("nationality").value,
@@ -102,9 +103,9 @@
       fetch(scriptUrl, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify(data)
+        body: new URLSearchParams(data)
       })
       .then(response => response.json())
       .then(result => {
@@ -112,7 +113,7 @@
           alert(result.message);
           document.getElementById("employeeForm").reset();
         } else {
-          alert(result.message);
+          alert("Error: " + result.message);
         }
       })
       .catch(error => {
