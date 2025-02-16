@@ -90,7 +90,7 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxJ16aryACMlAZ-CEfce-7ElIbFMajHrnAnJSUkPmpr6ne6uBvHnHc0aAD2_upQmI51/exec"; // Updated script URL
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzkzr4a6uSebqnkRrbzrDEjEdqV8wXf8zA9NYAjVvezzvCtTkWyfrwYsKH3rGKjNZrX/exec"; // New script URL
 
     function fetchEmployeeData() {
       var empNumber = document.getElementById("empNumber").value.trim();
@@ -146,9 +146,11 @@
       })
       .then(response => response.json())
       .then(result => {
-        alert(result.message); 
         if (result.status === 'success') {
+          alert(result.message);
           document.getElementById("employeeForm").reset();
+        } else {
+          alert(result.message); 
         }
       })
       .catch(error => {
