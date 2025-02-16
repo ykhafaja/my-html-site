@@ -1,120 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Employee Detail</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    input, button {
-      margin: 10px 0;
-      padding: 10px;
-      width: 300px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    button {
-      background-color: #691636;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #4c1024;
-    }
-  </style>
-</head>
-<body>
+<form id="employeeForm" onsubmit="submitEmployeeData(); return false;">
+  <label>Employee Number: <input type="text" name="empNumber" required></label><br>
+  <label>Name: <input type="text" name="name" required></label><br>
+  <label>Date of Birth: <input type="date" name="dateOfBirth"></label><br>
+  <label>Gender: <input type="text" name="gender"></label><br>
+  <label>Civil ID No: <input type="text" name="civilId"></label><br>
+  <label>Nationality: <input type="text" name="nationality"></label><br>
+  <label>Marital Status: <input type="text" name="maritalStatus"></label><br>
+  <label>Passport No: <input type="text" name="passportNo"></label><br>
+  <label>Place of Issue: <input type="text" name="placeOfIssue"></label><br>
+  <label>Date of Issue: <input type="date" name="dateOfIssue"></label><br>
+  <label>Valid Till (Passport): <input type="date" name="validTillPassport"></label><br>
+  <label>Valid Till (Civil ID): <input type="date" name="validTillCivilId"></label><br>
 
-<h1>Employee Data Form</h1>
-
-<input type="text" id="empNumber" placeholder="Enter Employee Number" />
-<button onclick="fetchEmployeeData()">Fetch Data</button>
-
-<form id="employeeForm" onsubmit="submitData(event)" style="display:none;">
-  <input type="text" id="name" placeholder="Name" disabled />
-  <input type="text" id="nationality" placeholder="Nationality" />
-  <input type="text" id="maritalStatus" placeholder="Marital Status" />
-  <input type="text" id="passportNo" placeholder="Passport No" />
-  <input type="text" id="placeOfIssue" placeholder="Place of Issue" />
-  <input type="date" id="dateOfIssue" placeholder="Date of Issue" />
-  <input type="date" id="validTillPassport" placeholder="Valid Till (Passport)" />
-  <input type="date" id="validTillCivilID" placeholder="Valid Till (Civil ID)" />
-  <button type="submit">Update Employee</button>
+  <button type="submit">Submit</button>
 </form>
 
 <script>
-  const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQFTo-nJwe9--0MSgS66vUe5rEBbOYAVfVbgGYchMQUmZ_RQbeC1vV7RqRnRE3ZgP1TPAK0aKDSnxAg/pub?output=csv";
-  const scriptUrl = "https://script.google.com/macros/s/AKfycbyJ0npTgki7FQvn_H_hw9lAM9X5Z0XdpTN6eC4NnLLkEzWi56PiW6Q9oMIeNBic7NUw/exec"; // Update with your deployed script URL
-
-  async function fetchEmployeeData() {
-    const empNumber = document.getElementById('empNumber').value;
-
-    if (!empNumber) {
-      alert('Please enter an employee number.');
-      return;
-    }
-
-    const response = await fetch(sheetUrl);
-    const csvData = await response.text();
-    const rows = csvData.split('\n').map(row => row.split(','));
-    const headers = rows[0];
-    const empIndex = headers.indexOf("Employee Number");
-
-    const employee = rows.find(row => row[empIndex] === empNumber);
-
-    if (employee) {
-      document.getElementById('name').value = employee[1];
-      document.getElementById('nationality').value = employee[5];
-      document.getElementById('maritalStatus').value = employee[6];
-      document.getElementById('passportNo').value = employee[7];
-      document.getElementById('placeOfIssue').value = employee[8];
-      document.getElementById('dateOfIssue').value = employee[9];
-      document.getElementById('validTillPassport').value = employee[10];
-      document.getElementById('validTillCivilID').value = employee[11];
-
-      document.getElementById('employeeForm').style.display = 'block';
-    } else {
-      alert('Employee not found.');
-    }
-  }
-
-  async function submitData(event) {
-    event.preventDefault();
-
+  async function submitEmployeeData() {
+    const form = document.getElementById('employeeForm');
     const data = {
-      empNumber: document.getElementById('empNumber').value,
-      nationality: document.getElementById('nationality').value,
-      maritalStatus: document.getElementById('maritalStatus').value,
-      passportNo: document.getElementById('passportNo').value,
-      placeOfIssue: document.getElementById('placeOfIssue').value,
-      dateOfIssue: document.getElementById('dateOfIssue').value,
-      validTillPassport: document.getElementById('validTillPassport').value,
-      validTillCivilID: document.getElementById('validTillCivilID').value
+      empNumber: form.empNumber.value,
+      name: form.name.value,
+      dateOfBirth: form.dateOfBirth.value,
+      gender: form.gender.value,
+      civilId: form.civilId.value,
+      nationality: form.nationality.value,
+      maritalStatus: form.maritalStatus.value,
+      passportNo: form.passportNo.value,
+      placeOfIssue: form.placeOfIssue.value,
+      dateOfIssue: form.dateOfIssue.value,
+      validTillPassport: form.validTillPassport.value,
+      validTillCivilId: form.validTillCivilId.value
     };
 
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxuNtkSa1cwcWeyu7qSx7ZfODNVrCjZm5Hx7T9_eWgH0NtmTqmtm7zlTVo_tOzFpihV/exec';
+
     try {
-      const response = await fetch(scriptUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
       alert(result.message);
     } catch (error) {
-      console.error("Error submitting data:", error);
+      console.error("Failed to submit data:", error);
       alert("Failed to submit data. Check the console for details.");
     }
   }
 </script>
-
-</body>
-</html>
