@@ -4,14 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Data Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #006064;
+        }
+
+        form {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 96, 100, 0.2);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            color: #004d40;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #26a69a;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        hr {
+            margin: 30px 0;
+            border: 1px solid #00796b;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Employee Data Form</h2>
+<h2>🔍 Search Employee</h2>
 
 <!-- Search Form -->
 <form id="searchForm" onsubmit="fetchEmployeeData(); return false;">
-    <label>Enter Employee Number: <input type="text" id="searchEmpNumber" required></label>
+    <label>Enter Employee Number:</label>
+    <input type="text" id="searchEmpNumber" required>
     <button type="submit">Search</button>
 </form>
 
@@ -19,24 +73,49 @@
 
 <!-- Employee Data Form -->
 <form id="employeeForm" onsubmit="submitEmployeeData(); return false;" style="display:none;">
-    <label>Employee Number: <input type="text" name="empNumber" id="empNumber" readonly></label><br>
-    <label>Name: <input type="text" name="name" id="name" required></label><br>
-    <label>Date of Birth: <input type="date" name="dateOfBirth" id="dateOfBirth"></label><br>
-    <label>Gender: <input type="text" name="gender" id="gender"></label><br>
-    <label>Civil ID No: <input type="text" name="civilId" id="civilId"></label><br>
-    <label>Nationality: <input type="text" name="nationality" id="nationality"></label><br>
-    <label>Marital Status: <input type="text" name="maritalStatus" id="maritalStatus"></label><br>
-    <label>Passport No: <input type="text" name="passportNo" id="passportNo"></label><br>
-    <label>Place of Issue: <input type="text" name="placeOfIssue" id="placeOfIssue"></label><br>
-    <label>Date of Issue: <input type="date" name="dateOfIssue" id="dateOfIssue"></label><br>
-    <label>Valid Till (Passport): <input type="date" name="validTillPassport" id="validTillPassport"></label><br>
-    <label>Valid Till (Civil ID): <input type="date" name="validTillCivilId" id="validTillCivilId"></label><br>
+    <h2>🛠️ Update Employee Data</h2>
+
+    <label>Employee Number:</label>
+    <input type="text" name="empNumber" id="empNumber" readonly>
+
+    <label>Name:</label>
+    <input type="text" name="name" id="name" required>
+
+    <label>Date of Birth:</label>
+    <input type="date" name="dateOfBirth" id="dateOfBirth">
+
+    <label>Gender:</label>
+    <input type="text" name="gender" id="gender">
+
+    <label>Civil ID No:</label>
+    <input type="text" name="civilId" id="civilId">
+
+    <label>Nationality:</label>
+    <input type="text" name="nationality" id="nationality">
+
+    <label>Marital Status:</label>
+    <input type="text" name="maritalStatus" id="maritalStatus">
+
+    <label>Passport No:</label>
+    <input type="text" name="passportNo" id="passportNo">
+
+    <label>Place of Issue:</label>
+    <input type="text" name="placeOfIssue" id="placeOfIssue">
+
+    <label>Date of Issue:</label>
+    <input type="date" name="dateOfIssue" id="dateOfIssue">
+
+    <label>Valid Till (Passport):</label>
+    <input type="date" name="validTillPassport" id="validTillPassport">
+
+    <label>Valid Till (Civil ID):</label>
+    <input type="date" name="validTillCivilId" id="validTillCivilId">
 
     <button type="submit">Update Employee</button>
 </form>
 
 <script>
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxPFK1JmTzTdzkBAkvC7vLHlrwUzzmbyBrVuM_BxeTaVGm5-SrHXCUNfldYzPuQ6hoV/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx2hySq7i8qlA0qK-gGDsU2_styj-xM42IrP_GrPdBUi_4QyQrDOmymYaMyuXILfdef/exec';
 
 // Fetch Employee Data
 async function fetchEmployeeData() {
