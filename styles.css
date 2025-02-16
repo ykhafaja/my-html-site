@@ -56,7 +56,7 @@
 
   <script>
     const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzSiqGaMd8YsNr4MJHu80Xc7FoB007OPtU8fpSJrhyA88dN5gILRVW0gavXgRbTOeVVUy_mtggE4h7/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbx5pH8OGVuZePtNMlqsJnS2t8rMGoPDzmjwrEzB2EkW9DzNLeYTai1pr0mVXtZ6m445/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxB78I9Zd7LIjgKuyvlY_i8RKYawiRYhkErV0XYtb6l9Nf3NT6P1GuAldN9bl6vLCcy/exec";
     
     function fetchEmployeeData() {
       var empNumber = document.getElementById("empNumber").value.trim();
