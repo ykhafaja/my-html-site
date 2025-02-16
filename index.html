@@ -12,10 +12,12 @@
   </header>
   
   <div class="form-container">
+    <!-- Search Employee -->
     <label for="empNumber">Enter Employee Number:</label>
-    <input type="text" id="empNumber" placeholder="Enter Employee Number">
+    <input type="text" id="empNumber" placeholder="Enter Employee Number" />
     <button onclick="fetchEmployeeData()">Fetch Data</button>
     
+    <!-- Employee Form -->
     <form id="employeeForm" onsubmit="submitEmployeeData(event)">
       <label>Name:</label>
       <input type="text" id="name" disabled>
@@ -55,40 +57,50 @@
   </div>
 
   <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPqZbxtoqMDrqYSFdk-wQhr2yexx6Lt50h731cEBBZVyFbaZxkbbN-xoJ1une7whpJyNnwJEI_cT3L/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwsZjvhFcFjqsdzL7uh7y1woXqkI2Hkvq772GrffVt1smbrZwCAkYmrnW8zRbxk1vQN/exec";
-    
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/1db_hDqQNI0v0PE800vU5HRNp9KIY7Aj68pLIN7xiS3c/edit?usp=sharing";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbz3bVe2JGR4EQwnvOnmkH-NwPbXvJwe5Cd0rrSt66s7YV_uwwP36FqTIjJlWmE4dKST/exec";
+
+    // Fetch employee data
     function fetchEmployeeData() {
-      var empNumber = document.getElementById("empNumber").value.trim(); // Trim spaces
+      const empNumber = document.getElementById("empNumber").value.trim();
       fetch(sheetUrl)
         .then(response => response.text())
         .then(csvText => {
-          var rows = csvText.split("\n").map(row => row.split(","));
-          var headers = rows[0].map(header => header.trim()); // Trim column names
-          var empIndex = headers.indexOf("Employee Number (Emp. No)");
-          
+          const rows = csvText.split("\n").map(row => row.split(","));
+          const headers = rows[0].map(header => header.trim());
+          const empIndex = headers.indexOf("Employee NumbeR");
+
           if (empIndex === -1) {
-            alert("Column 'Employee Number (Emp. No)' not found. Check the Google Sheet!");
+            alert("Column 'Employee NumbeR' not found. Check the Google Sheet!");
             return;
           }
-          
-          var empData = rows.find(row => row[empIndex]?.trim() === empNumber);
-          
+
+          const empData = rows.find(row => row[empIndex]?.trim() === empNumber);
+
           if (empData) {
             document.getElementById("name").value = empData[1] || "";
             document.getElementById("dob").value = empData[2] || "";
             document.getElementById("gender").value = empData[3] || "";
             document.getElementById("civilID").value = empData[4] || "";
+            document.getElementById("nationality").value = empData[5] || "";
+            document.getElementById("maritalStatus").value = empData[6] || "";
+            document.getElementById("passportNo").value = empData[7] || "";
+            document.getElementById("placeOfIssue").value = empData[8] || "";
+            document.getElementById("dateOfIssue").value = empData[9] || "";
+            document.getElementById("validTillPassport").value = empData[10] || "";
+            document.getElementById("validTillCivilID").value = empData[11] || "";
           } else {
-            alert("Employee not found. Check the entered number.");
+            alert("Employee not found.");
           }
         })
         .catch(error => console.error("Error fetching data:", error));
     }
 
+    // Submit employee data
     function submitEmployeeData(event) {
       event.preventDefault();
-      var data = {
+
+      const data = {
         empNumber: document.getElementById("empNumber").value,
         nationality: document.getElementById("nationality").value,
         maritalStatus: document.getElementById("maritalStatus").value,
@@ -99,29 +111,18 @@
         validTillCivilID: document.getElementById("validTillCivilID").value
       };
 
-      console.log("Data to be sent:", data); // Log data to be sent
-
       fetch(scriptUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*", 
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       })
       .then(response => response.json())
       .then(result => {
-        if (result.status === 'success') {
-          alert(result.message);
-          document.getElementById("employeeForm").reset();
-        } else {
-          alert(result.message);
-        }
+        alert(result.message);
+        if (result.status === 'success') document.getElementById("employeeForm").reset();
       })
       .catch(error => {
-        console.error("Error:", error);
+        console.error("Submission error:", error);
         alert("There was an error submitting the data.");
       });
     }
