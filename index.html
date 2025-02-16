@@ -1,52 +1,108 @@
-<form id="employeeForm" onsubmit="submitEmployeeData(); return false;">
-  <label>Employee Number: <input type="text" name="empNumber" required></label><br>
-  <label>Name: <input type="text" name="name" required></label><br>
-  <label>Date of Birth: <input type="date" name="dateOfBirth"></label><br>
-  <label>Gender: <input type="text" name="gender"></label><br>
-  <label>Civil ID No: <input type="text" name="civilId"></label><br>
-  <label>Nationality: <input type="text" name="nationality"></label><br>
-  <label>Marital Status: <input type="text" name="maritalStatus"></label><br>
-  <label>Passport No: <input type="text" name="passportNo"></label><br>
-  <label>Place of Issue: <input type="text" name="placeOfIssue"></label><br>
-  <label>Date of Issue: <input type="date" name="dateOfIssue"></label><br>
-  <label>Valid Till (Passport): <input type="date" name="validTillPassport"></label><br>
-  <label>Valid Till (Civil ID): <input type="date" name="validTillCivilId"></label><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Form</title>
+</head>
+<body>
 
-  <button type="submit">Submit</button>
+<h2>Employee Data Form</h2>
+
+<!-- Search Form -->
+<form id="searchForm" onsubmit="fetchEmployeeData(); return false;">
+    <label>Enter Employee Number: <input type="text" id="searchEmpNumber" required></label>
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<!-- Employee Data Form -->
+<form id="employeeForm" onsubmit="submitEmployeeData(); return false;" style="display:none;">
+    <label>Employee Number: <input type="text" name="empNumber" id="empNumber" readonly></label><br>
+    <label>Name: <input type="text" name="name" id="name" required></label><br>
+    <label>Date of Birth: <input type="date" name="dateOfBirth" id="dateOfBirth"></label><br>
+    <label>Gender: <input type="text" name="gender" id="gender"></label><br>
+    <label>Civil ID No: <input type="text" name="civilId" id="civilId"></label><br>
+    <label>Nationality: <input type="text" name="nationality" id="nationality"></label><br>
+    <label>Marital Status: <input type="text" name="maritalStatus" id="maritalStatus"></label><br>
+    <label>Passport No: <input type="text" name="passportNo" id="passportNo"></label><br>
+    <label>Place of Issue: <input type="text" name="placeOfIssue" id="placeOfIssue"></label><br>
+    <label>Date of Issue: <input type="date" name="dateOfIssue" id="dateOfIssue"></label><br>
+    <label>Valid Till (Passport): <input type="date" name="validTillPassport" id="validTillPassport"></label><br>
+    <label>Valid Till (Civil ID): <input type="date" name="validTillCivilId" id="validTillCivilId"></label><br>
+
+    <button type="submit">Update Employee</button>
 </form>
 
 <script>
-  async function submitEmployeeData() {
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxPFK1JmTzTdzkBAkvC7vLHlrwUzzmbyBrVuM_BxeTaVGm5-SrHXCUNfldYzPuQ6hoV/exec';
+
+// Fetch Employee Data
+async function fetchEmployeeData() {
+    const empNumber = document.getElementById('searchEmpNumber').value;
+    try {
+        const response = await fetch(`${scriptURL}?empNumber=${empNumber}`);
+        const data = await response.json();
+
+        if (data.status === "success") {
+            document.getElementById('employeeForm').style.display = 'block';
+
+            document.getElementById('empNumber').value = data.employee['Employee Number'];
+            document.getElementById('name').value = data.employee['Name'];
+            document.getElementById('dateOfBirth').value = data.employee['Date of Birth'];
+            document.getElementById('gender').value = data.employee['Gender'];
+            document.getElementById('civilId').value = data.employee['Civil ID No'];
+            document.getElementById('nationality').value = data.employee['Nationality'];
+            document.getElementById('maritalStatus').value = data.employee['Marital Status'];
+            document.getElementById('passportNo').value = data.employee['Passport No'];
+            document.getElementById('placeOfIssue').value = data.employee['Place of Issue'];
+            document.getElementById('dateOfIssue').value = data.employee['Date of Issue'];
+            document.getElementById('validTillPassport').value = data.employee['Valid Till (Passport)'];
+            document.getElementById('validTillCivilId').value = data.employee['Valid Till (Civil ID)'];
+        } else {
+            alert(data.message);
+            document.getElementById('employeeForm').style.display = 'none';
+        }
+    } catch (error) {
+        console.error("Failed to fetch data:", error);
+        alert("Failed to fetch data. Check the console for details.");
+    }
+}
+
+// Submit Updated Data
+async function submitEmployeeData() {
     const form = document.getElementById('employeeForm');
     const data = {
-      empNumber: form.empNumber.value,
-      name: form.name.value,
-      dateOfBirth: form.dateOfBirth.value,
-      gender: form.gender.value,
-      civilId: form.civilId.value,
-      nationality: form.nationality.value,
-      maritalStatus: form.maritalStatus.value,
-      passportNo: form.passportNo.value,
-      placeOfIssue: form.placeOfIssue.value,
-      dateOfIssue: form.dateOfIssue.value,
-      validTillPassport: form.validTillPassport.value,
-      validTillCivilId: form.validTillCivilId.value
+        empNumber: form.empNumber.value,
+        name: form.name.value,
+        dateOfBirth: form.dateOfBirth.value,
+        gender: form.gender.value,
+        civilId: form.civilId.value,
+        nationality: form.nationality.value,
+        maritalStatus: form.maritalStatus.value,
+        passportNo: form.passportNo.value,
+        placeOfIssue: form.placeOfIssue.value,
+        dateOfIssue: form.dateOfIssue.value,
+        validTillPassport: form.validTillPassport.value,
+        validTillCivilId: form.validTillCivilId.value
     };
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw2xFSHs_9SkTKGutOqM0dLBExmLoxuJaRFlE1hz9sEucQIDQJu3VG6C1MypmtIf1rb/exec';
-
     try {
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+        const response = await fetch(scriptURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
 
-      const result = await response.json();
-      alert(result.message);
+        const result = await response.json();
+        alert(result.message);
     } catch (error) {
-      console.error("Failed to submit data:", error);
-      alert("Failed to submit data. Check the console for details.");
+        console.error("Failed to submit data:", error);
+        alert("Failed to submit data. Check the console for details.");
     }
-  }
+}
 </script>
+
+</body>
+</html>
