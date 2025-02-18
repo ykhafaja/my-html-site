@@ -3,13 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Data Form</title>
+    <title>Employee Form</title>
+</head>
+<body>
+    <h2>Employee Information Form</h2>
+    <form id="employeeForm">
+        <label for="employeeNumber">Employee Number:</label>
+        <input type="text" id="employeeNumber" name="employeeNumber" required>
+        <button type="button" onclick="fetchEmployeeData()">Fetch Data</button>
+        <br/><br/>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" readonly><br/><br/>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="text" id="dob" name="dob" readonly><br/><br/>
+
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" readonly><br/><br/>
+
+        <label for="civilId">Civil ID No:</label>
+        <input type="text" id="civilId" name="civilId" readonly><br/><br/>
+
+        <label for="nationality">Nationality:</label>
+        <input type="text" id="nationality" name="nationality" required><br/><br/>
+
+        <label for="maritalStatus">Marital Status:</label>
+        <input type="text" id="maritalStatus" name="maritalStatus" required><br/><br/>
+
+        <label for="passportNo">Passport No:</label>
+        <input type="text" id="passportNo" name="passportNo" required><br/><br/>
+
+        <label for="placeOfIssue">Place of Issue:</label>
+        <input type="text" id="placeOfIssue" name="placeOfIssue" required><br/><br/>
+
+        <label for="dateOfIssue">Date of Issue:</label>
+        <input type="date" id="dateOfIssue" name="dateOfIssue" required><br/><br/>
+
+        <label for="validTillPassport">Valid Till (Passport):</label>
+        <input type="date" id="validTillPassport" name="validTillPassport" required><br/><br/>
+
+        <label for="validTillCivilId">Valid Till (Civil ID):</label>
+        <input type="date" id="validTillCivilId" name="validTillCivilId" required><br/><br/>
+
+        <button type="submit">Submit</button>
+    </form>
+
     <script>
         async function fetchEmployeeData() {
             const empNumber = document.getElementById('employeeNumber').value;
-            if (!empNumber) return;
-
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbxWGJOqo-gNl_axZzD6jUXrXv91hIVjXJEP-4-R8mha8l65c3RxbtipbzILueZFN147/exec?employeeNumber=${empNumber}`);
+            if (!empNumber) {
+                alert('Please enter an employee number.');
+                return;
+            }
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec?employeeNumber=${empNumber}`);
             const data = await response.json();
 
             if (data.success) {
@@ -22,63 +69,20 @@
             }
         }
 
-        async function submitForm(event) {
+        document.getElementById('employeeForm').addEventListener('submit', async function (event) {
             event.preventDefault();
-            const formData = new FormData(document.getElementById('employeeForm'));
-            const entries = Object.fromEntries(formData.entries());
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
 
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbxWGJOqo-gNl_axZzD6jUXrXv91hIVjXJEP-4-R8mha8l65c3RxbtipbzILueZFN147/exec`, {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec', {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(entries)
+                body: JSON.stringify(data)
             });
 
-            const result = await response.json();
-            alert(result.message);
-        }
+            alert('Form submitted. Check Google Sheet for updates.');
+        });
     </script>
-</head>
-<body>
-    <h2>Employee Data Form</h2>
-    <form id="employeeForm" onsubmit="submitForm(event)">
-        <label>Employee Number:</label>
-        <input type="text" id="employeeNumber" name="employeeNumber" required>
-        <button type="button" onclick="fetchEmployeeData()">Fetch Data</button><br>
-
-        <label>Name:</label>
-        <input type="text" id="name" name="name" readonly><br>
-
-        <label>Date of Birth:</label>
-        <input type="text" id="dob" name="dob" readonly><br>
-
-        <label>Gender:</label>
-        <input type="text" id="gender" name="gender" readonly><br>
-
-        <label>Civil ID No:</label>
-        <input type="text" id="civilId" name="civilId" readonly><br>
-
-        <label>Nationality:</label>
-        <input type="text" name="nationality" required><br>
-
-        <label>Marital Status:</label>
-        <input type="text" name="maritalStatus" required><br>
-
-        <label>Passport No:</label>
-        <input type="text" name="passportNo" required><br>
-
-        <label>Place of Issue:</label>
-        <input type="text" name="placeOfIssue" required><br>
-
-        <label>Date of Issue:</label>
-        <input type="date" name="dateOfIssue" required><br>
-
-        <label>Valid Till (Passport):</label>
-        <input type="date" name="validTillPassport" required><br>
-
-        <label>Valid Till (Civil ID):</label>
-        <input type="date" name="validTillCivilId" required><br>
-
-        <button type="submit">Submit</button>
-    </form>
 </body>
 </html>
