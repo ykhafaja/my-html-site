@@ -56,7 +56,7 @@
                 alert('Please enter an employee number.');
                 return;
             }
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec?employeeNumber=${empNumber}`);
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbwdJwM_rxP2AMpbEhXPn_ugEA4muOO1V5Ks6uLmegXZCpV17uvlOndUkrAyQ1bKuMf-/exec?employeeNumber=${empNumber}`);
             const data = await response.json();
 
             if (data.success) {
@@ -74,7 +74,7 @@
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
-            const response = await fetch('https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec', {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwdJwM_rxP2AMpbEhXPn_ugEA4muOO1V5Ks6uLmegXZCpV17uvlOndUkrAyQ1bKuMf-/exec', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
