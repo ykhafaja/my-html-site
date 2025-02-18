@@ -9,7 +9,7 @@
             const empNumber = document.getElementById('employeeNumber').value;
             if (!empNumber) return;
 
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec?employeeNumber=${empNumber}`);
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbw58G1FNymqvKp41ZtlN3A17nF94Y6lmpFI0WW2veBwyctjjaCoo5MD6Ysmw4sG8Og4/exec?employeeNumber=${empNumber}`);
             const data = await response.json();
 
             if (data.success) {
@@ -27,7 +27,7 @@
             const formData = new FormData(document.getElementById('employeeForm'));
             const entries = Object.fromEntries(formData.entries());
 
-            const response = await fetch(`https://script.google.com/macros/s/AKfycbymAVkzrjfcm5SSyP0Mlv1vGEoSghE4cpq-nDUC19-2yjg6jqzyMt8sGXtElh3HAQ1O/exec`, {
+            const response = await fetch(`https://script.google.com/macros/s/AKfycbw58G1FNymqvKp41ZtlN3A17nF94Y6lmpFI0WW2veBwyctjjaCoo5MD6Ysmw4sG8Og4/exec`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(entries)
