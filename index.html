@@ -42,7 +42,8 @@
     <h2>Employee Data Form</h2>
     <form id="employeeForm" onsubmit="submitForm(event)">
         <label>Employee Number:</label>
-        <input type="text" id="employeeNumber" name="employeeNumber" onblur="fetchEmployeeData()" required><br>
+        <input type="text" id="employeeNumber" name="employeeNumber" required>
+        <button type="button" onclick="fetchEmployeeData()">Fetch Data</button><br>
 
         <label>Name:</label>
         <input type="text" id="name" name="name" readonly><br>
