@@ -1,191 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Details Form</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f3f3f3;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .header {
-      text-align: center;
-      background-color: #691636;
-      color: white;
-      padding: 30px;
-      font-size: 2rem;
-      margin-bottom: 30px;
-    }
-
-    .form-container {
-      max-width: 500px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
-
-    label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #691636;
-      border-radius: 5px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #691636;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    button:hover {
-      background-color: #4c1024;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Data Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f0f4f7;
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-width: 600px;
+            margin: auto;
+        }
+        input, select {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="header">Employee Information</div>
-  
-  <div class="form-container">
-    <!-- Search Employee -->
-    <label for="empNumber">Enter Employee Number:</label>
-    <input type="text" id="empNumber" placeholder="Enter Employee Number" />
-    <button onclick="fetchEmployeeData()">Fetch Data</button>
+    <h2 style="text-align: center;">Employee Data Form</h2>
+    <form id="employeeForm">
+        <label>Employee Number</label>
+        <input type="text" id="employeeNumber" name="Employee Number" required>
 
-    <!-- Error message -->
-    <div id="errorMessage" class="error"></div>
+        <label>Name</label>
+        <input type="text" name="Name" required>
 
-    <!-- Employee Form -->
-    <form id="employeeForm" onsubmit="submitEmployeeData(event)">
-      <label>Name:</label>
-      <input type="text" id="name" disabled>
+        <label>Date of Birth</label>
+        <input type="date" name="Date of Birth">
 
-      <label>Date of Birth:</label>
-      <input type="text" id="dob" disabled>
+        <label>Gender</label>
+        <select name="Gender">
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
 
-      <label>Gender:</label>
-      <input type="text" id="gender" disabled>
+        <label>Civil ID No</label>
+        <input type="text" name="Civil ID No">
 
-      <label>Civil ID No:</label>
-      <input type="text" id="civilID" disabled>
+        <label>Nationality</label>
+        <input type="text" name="Nationality">
 
-      <label>Nationality:</label>
-      <input type="text" id="nationality">
+        <label>Marital Status</label>
+        <select name="Marital Status">
+            <option value="">Select</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
+        </select>
 
-      <label>Marital Status:</label>
-      <input type="text" id="maritalStatus">
+        <label>Passport No</label>
+        <input type="text" name="Passport No">
 
-      <label>Passport No:</label>
-      <input type="text" id="passportNo">
+        <label>Place of Issue</label>
+        <input type="text" name="Place of Issue">
 
-      <label>Place of Issue:</label>
-      <input type="text" id="placeOfIssue">
+        <label>Date of Issue</label>
+        <input type="date" name="Date of Issue">
 
-      <label>Date of Issue:</label>
-      <input type="date" id="dateOfIssue">
+        <label>Valid Till (Passport)</label>
+        <input type="date" name="Valid Till (Passport)">
 
-      <label>Valid Till (Passport):</label>
-      <input type="date" id="validTillPassport">
+        <label>Valid Till (Civil ID)</label>
+        <input type="date" name="Valid Till (Civil ID)">
 
-      <label>Valid Till (Civil ID):</label>
-      <input type="date" id="validTillCivilID">
-
-      <button type="submit">Submit</button>
+        <button type="button" onclick="submitData()">Submit</button>
     </form>
-  </div>
 
-  <script>
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQFTo-nJwe9--0MSgS66vUe5rEBbOYAVfVbgGYchMQUmZ_RQbeC1vV7RqRnRE3ZgP1TPAK0aKDSnxAg/pub?output=csv";
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwq-1V8NS6dC9jcyW6BdnpR-wLHyUUJh95Z9rtiwJvkuzHwd3AZVh_l98ib2SlskU6p/exec";
+    <div id="message" style="text-align: center; margin-top: 20px;"></div>
 
-    async function fetchEmployeeData() {
-      const empNumber = document.getElementById("empNumber").value.trim();
-      if (!empNumber) {
-        document.getElementById("errorMessage").innerText = "Please enter an employee number.";
-        return;
-      }
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbxuNtkSa1cwcWeyu7qSx7ZfODNVrCjZm5Hx7T9_eWgH0NtmTqmtm7zlTVo_tOzFpihV/exec'; // Replace with your own URL
 
-      try {
-        const response = await fetch(sheetUrl);
-        const text = await response.text();
-        const rows = text.split("\n").map(row => row.split(","));
-        const headers = rows[0];
-        const empIndex = headers.indexOf("Employee Number");
+        async function submitData() {
+            const form = document.getElementById('employeeForm');
+            const formData = {};
+            Array.from(form.elements).forEach(el => {
+                if (el.name) formData[el.name] = el.value;
+            });
 
-        const empData = rows.find(row => row[empIndex]?.trim() === empNumber);
-        if (empData) {
-          document.getElementById("name").value = empData[1] || "";
-          document.getElementById("dob").value = empData[2] || "";
-          document.getElementById("gender").value = empData[3] || "";
-          document.getElementById("civilID").value = empData[4] || "";
-          document.getElementById("nationality").value = empData[5] || "";
-          document.getElementById("maritalStatus").value = empData[6] || "";
-          document.getElementById("passportNo").value = empData[7] || "";
-          document.getElementById("placeOfIssue").value = empData[8] || "";
-          document.getElementById("dateOfIssue").value = empData[9] || "";
-          document.getElementById("validTillPassport").value = empData[10] || "";
-          document.getElementById("validTillCivilID").value = empData[11] || "";
-        } else {
-          alert("Employee not found.");
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                document.getElementById('message').textContent = result.message;
+
+                if (result.success) {
+                    form.reset();
+                }
+            } catch (error) {
+                document.getElementById('message').textContent = 'Failed to submit data. Check console for details.';
+                console.error('Error:', error);
+            }
         }
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-        document.getElementById("errorMessage").innerText = "Failed to fetch data.";
-      }
-    }
+    </script>
 
-    async function submitEmployeeData(event) {
-      event.preventDefault();
-      const data = {
-        empNumber: document.getElementById("empNumber").value,
-        nationality: document.getElementById("nationality").value,
-        maritalStatus: document.getElementById("maritalStatus").value,
-        passportNo: document.getElementById("passportNo").value,
-        placeOfIssue: document.getElementById("placeOfIssue").value,
-        dateOfIssue: document.getElementById("dateOfIssue").value,
-        validTillPassport: document.getElementById("validTillPassport").value,
-        validTillCivilID: document.getElementById("validTillCivilID").value,
-      };
-
-      try {
-        const response = await fetch(scriptUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-        const result = await response.json();
-        alert(result.message);
-      } catch (error) {
-        console.error("Submission error:", error);
-        alert("Failed to submit data.");
-      }
-    }
-  </script>
 </body>
 </html>
